@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "emisafe",
+  "private_key_id": "397b406ffd1b4bc468d278c2826e2271cb5b7aa9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCmzK8cW4N0Lzny\npTobQ3iV4j+eKiYH1N5qpQEezMnjaur022ws4aTEUdZCPl8X+CujeU+ip8t/ehp2\nKI7y6c33ykj80u1XGAZTffsCBKIqEq8mMZnr8s41khX6UVg/c44+1vABBskpumf9\nHDc/n28fWRU6YLaYCo6jZblrSBNA+O8CFgVP8yUoL1XH3DIn4K3/nL4TAjoTthST\nt26QIQtg0hxwnRnOkkc+ly6UgBl54CbJz08ogGtUEMUp5uRIWyN9rppvW9qfzT14\nt4scOYYPcAzQE6DcvCFHlUGfQgeuQbtnL1U/KSnYygGNXo1mkqLHZwvKWzKV1fV5\nE6BVdcKJAgMBAAECggEANobS98IyxthpaRj6Vc9IrDa59UpyBD1iOBqYsyjfFqjt\nBf507ncVFdhq4lzhWUSXf2k4z0NrEtEntVis4lvsKQTHt158l+wSpViZpZ8+I+LX\nvvSYDLnjD0AiTyIoZxWventpGezN9gYp2GRQ60uDWAwXFG5pQmqxFlk6tAdrw+EU\nm0nLgVJ57hMYyOu1ZYeVxaxlG77doHsb56XhfW5sItxbQYPRb5DEq6juNFlShJ1I\n+X27/sQOji24D3lxd67lx/j14uxLVcmghCr/SMiSU3iS0Ggr3ut42llyHfP2+cDm\nZwqebnFg2vHy+kC8uzenu6MTWGRWjAbuLedNYAI6wQKBgQDp9p95CKeHAuxH5E07\nMBgZs6nu0vyQLKt/W8KwjuCfM7KX3gOIbeEAPqME5jLPJZaOpizFrIFI0Xckqzet\n8nA/iAciKeeM7MCtvBDHcFUMv+rgJ0istIyZVpNULf1RtJE6qlvkZrf+65JnQfeZ\n8cA3UMs5J/8olpMys8265eksqwKBgQC2gpeKzq4i0rRYsNcP/6iEFBiJLZ7iT4Q4\npqHZThwsftmQ1YbL1zPOyRyToZf2bDAx9tEfCOax38C+7V0ue8Su6ydmWU/Oud9d\nrBJck4SOY3bzlANmBRxRxA0PAMcKstsixQjoa6ie1IU/6IOLsJx4O8j0h09u8JHK\nXD7g83klmwKBgQDpvQwBXVYRGih4gmtuEFRjiQzinkLYvufu6vuMbJGYO4vXEWSy\nLiQ1nF49DMYCEWlixj3AluDqoOnI5o1P6P+fWQTXasn8DqNIbrTMqzss66d5nYWL\nlS1KHCZAWVnVAPJ+i6gWfVChCzROmKcHU3BXUw5U4dKW+CfC5cNJT1wu1QKBgECu\nQ3qkCL66ocOU2IMI/fXhEVj8XASkXZ2eIFnc/sseIYjcw6rWF7w/Net0J2Djsqji\nafZvtyJuw+ZmRNHGd0vudsYk/M2sveZ6pv88IIw939gvKo0rXn/z1RTuF5xJCrRl\n0+Ra0yWG97pQct48txc9SNiwY4xTobdvvbEHWHXlAoGAXfGmF5MwOl3R9LO3P02P\nj3kE7UDzhfy4nlUof1zTyYvvD5V/RRn7sBIFxg6Y0N8W0qdw02Gl5Kx29NsOBvVn\nAQ3UTuSDFZ/oZc967fmLiRDhdItKl88Xb6cmGvR3BCT4NhNpgnkOepA17H9cS0n7\nHHw3PUvUPhaNTZ3c4Kh9zNc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "emisafe@emisafe.iam.gserviceaccount.com",
+  "client_id": "112982355660053512374",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/emisafe%40emisafe.iam.gserviceaccount.com"
+}

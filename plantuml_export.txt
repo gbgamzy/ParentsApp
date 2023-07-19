@@ -1,0 +1,41 @@
+@startuml
+
+class Parent {
+    -_id: string
+    -name: string
+    -phone: string
+    -email: string
+    -tokens: Token[]
+    +buy_token(): void
+    +get_profile():Parent
+    +enroll_device(device: Device): void
+    +update_policy(device: Device): void
+}
+
+class Token {
+    // empty class
+}
+
+class Device {
+    -device_model: string
+    -brand: string
+    -nickname: string
+    -policy_name: string
+    -created_on: datetime
+    -enrolled_on: datetime
+    -otp: string
+    -qr_code: string
+    +enroll(token: Token): void
+    +apply_policy(policy: Policy): void
+}
+
+class Policy {
+    -name: string
+    -allowed_applications: list<string>
+}
+
+Parent "1" -- "1" Token
+Parent "1" -- "1" Device
+Device "1" -- "1" Policy
+
+@enduml

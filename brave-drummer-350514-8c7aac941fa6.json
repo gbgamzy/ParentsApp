@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "brave-drummer-350514",
+  "private_key_id": "8c7aac941fa66af5e2cc387467636484287d739e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDkvl/cMBpOlMfU\nfxJPVCgJDQDkhw0026TGyST95fvfSAc3dFUYFCZiCkHsoqiWVfaehH+du7Gr2iTv\n5UQLpCGsRZ1dAXtZ1JOO5azjYUILJA0+vnJmf2pZJC7jWvLDgIhrajID17OwH/cB\nxOSw0mHOPHxrxiYLbK336H3w2elsZsN5qx48Nd4VItoe8v/fPXDUy/j+Xtt+2oLA\nQLyZGiQc604hdfX6R/psyAtsOaq9LCxegONflJ3U8an0mm0cWlh2F6YsRufAJIrp\nI4V4NGC3X+Ozg2FExRC4TfZYxuTJJT6h2aI+xJtlkpxtnhzSjj0vXb2XlBFy9fl0\n2t5lY5TnAgMBAAECggEAES3jESxjrWcrIuBwRZjycMuTN5aU/VVJqMxOhOsS4ZAN\nSrLn+Sj6QP64OMd2lePa48jbtML18wwtHf8//wfSp5eK3ANSekqm0mKZe3JAfYm1\nnPK8sMn8+Ljo9JZOCTTMChUtsHAwxJeB+5YH/ueuBMkyJv34uX7uCeJiIwaaq1Ng\nHbiSTdf6PHpNUobzBURjVOJuLqUKY+cNGPo5I++2e6xELfwq1JcES+Pj0IYvs7cZ\nSDxY/66Cjf6hOvJUDFICFVAJ7nT0/wSupKtqbAjcBfqhsulgYO2hoD49uLtI9ayv\nuWKgvt+9v20eu7pgf+vMAreWAq7bQp+CgLBpDrzTUQKBgQDyX2KaaGqvgjp+Jrd3\ntqSSYthm49DLRyzIl0ngFZzy0ho+6GFTSNJ4AUhdNqGLzQLlV38Vx8fSjajt8aTu\n+XlhWMKgjfaIkT1tUPmRih4gnCrEnlqE+SJjIu7vSvjXF08jYz3S7nzUhZKbUk2i\nHC2vvInjLwNeKxd1g+xWee8mlQKBgQDxmtHS3O7bij7qpU/xoFusIs1xYnme/d77\nYXvmfdPSWfcJEpL7ErpuMTx/RgefGWqn6DxNv1qrNpQw9IXTFs8oCmTEyVVKEWCH\nG3AB5c1udPHwgRRNCk8D0yrp+yHpceF55suMqTHLtA6pyZlIjtVFBZ/ocAKBEJfT\nTNcjlQSaiwKBgAqltBAybBVftDAchUzGAj7IBtemRGLZspbxRnaInIdyQWLoFHZz\nKYPKEqK9pqUckXb/u/5580ZFoNkrF2LEJNfo7UveUKk5MCigOQZyudYW5i4TAsj6\npM8UFsj+UyYnyPs1/d5JScSQRZt7Jxvq/vrMXoZTZ2N4oyQvcm9uFdptAoGAGxmJ\nhYRgimGEUx99yxV4kuNIdfpct/ez5jB2DFF6y/JpYiwiLmVYYfnF1mTNgAwCyZik\nAvh+vAugLamPxTCexdf8m5IVrfwq/pyWQLA9DbGyXY6s70NDv6MVAi+4Cw5KAzlf\nBYUI39dveZ3yQpA63cYWvKSrszxgO0Q4MXaKkKcCgYAeg0YUpr+TQ4Op7HnFJ2/W\nWliZpfJykIlG+9S91je10vIzWu7PjlPS0xYMR2QgjuHGO2NEC5rEp9RjRzxlRSEv\noTOzYdxb3bOhuYiowo5j1om/xsNDVgYcUGWwSRYlkQLppYoaPmC5/jeHqIMQNYea\nojYSbYt2GxtbicFniXl2yw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "node-js-server@brave-drummer-350514.iam.gserviceaccount.com",
+  "client_id": "115007837960656397307",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/node-js-server%40brave-drummer-350514.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
