@@ -36,9 +36,9 @@ class AMA:
     def patchPolicy(self, policy):
         
 
-        with open('/home/gautam/emigaps.co.in/emisafe-backend/access.log', 'a') as f:
-            f.write(json.dumps(policy))
-            f.write('\n')
+        # with open('/home/gautam/emigaps.co.in/emisafe-backend/access.log', 'a') as f:
+        #     f.write(json.dumps(policy))
+        #     f.write('\n')
 
         try:
             self.api.enterprises().policies().patch(
@@ -47,10 +47,10 @@ class AMA:
             ).execute()
             return True
         except Exception as e:
-            with open('/home/gautam/emigaps.co.in/emisafe-backend/access.log', 'a') as f:
-                f.write(str(e))
-                # new line
-                f.write('\n')
+            # with open('/home/gautam/emigaps.co.in/emisafe-backend/access.log', 'a') as f:
+            #     f.write(str(e))
+            #     # new line
+            #     f.write('\n')
             print(e)
             return e
 

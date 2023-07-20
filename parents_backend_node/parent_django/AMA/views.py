@@ -1,10 +1,48 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from AMA.api import AMA
 
+@csrf_exempt
+def getEnrollmentToken(request):
+
+    if(request.method != 'POST'):
+        return JsonResponse({'message': 'Invalid request'},
+                            status=400)
+    print("getting enrollment token..")
+    data = request.body.decode('utf-8')
+    data = json.loads(data)
+    
+    try:
+        
+            
+        policy = data['policyItself']
+        print(policy)
+        policyMade = AMA().patchPolicy(policy)
+        if(policyMade == False):
+            return JsonResponse({'message': 'Some error occured'},
+                            status=304)
+        token = AMA().createEnrollmentToken(policy)
+        return JsonResponse({'message': 'Token generated successfully',
+                            'status': 'success',
+                            'body': {
+                                'token': token,
+                            }    
+        }, status = 200)
+        
+
+    except Exception as e:
+        print(e)
+        return JsonResponse({'message': 'Some error occured',
+                        'status': 'error',
+                        'body': "",
+                        'error': str(e)
+                        },
+                        status=400)
 
 
+@csrf_exempt
 def updatePolicy(request):
         
     if(request.method != 'PUT'):
@@ -36,3 +74,5 @@ def updatePolicy(request):
                             'error': str(e)
                             },
                             status=400)
+
+
