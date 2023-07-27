@@ -63,9 +63,9 @@ router.get('/:phone/otp', async (req, res) => {
 });
 
 // verify otp
-router.post('/verifyotp', async (req, res) => { 
+router.post('/:phone/otp', async (req, res) => { 
     try {
-        var user = await User.find({ phone: req.body.phone });
+        var user = await User.find({ phone: req.params.phone });
         if (user.length == 0) {
             throw "User not found";
         }
