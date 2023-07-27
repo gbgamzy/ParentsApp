@@ -41,7 +41,7 @@ router.get('/:phone/otp', async (req, res) => {
 
             
         }
-        await user.save();
+        await user[0].save();
 
         
         res.statusCode = 200;
