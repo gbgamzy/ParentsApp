@@ -10,7 +10,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://127.0.0.1:27017/mydb', { 
+mongoose.connect('mongodb://127.0.0.1:27017/parentsdb', { 
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then((result) => console.log("db connected"))

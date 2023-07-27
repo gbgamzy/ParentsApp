@@ -1,5 +1,5 @@
 
-var url = "http://127.0.0.1:8000/AMA/";
+var url = "https://www.emigaps.co.in/api/intro/";
 
 const http = require("http");
 const axios = require("axios");
@@ -41,7 +41,7 @@ async function getEnrollmentToken(name) {
     });
     try {
         var r = null;
-        await axios.post(url + 'getEnrollmentToken/', requestBody, options)
+        await axios.post(url + 'getEnrollmentToken1/', requestBody, options)
             .then((res) => {
                 console.log(res.data.body['token']['qrCode']);
             if (res.status == 200){
@@ -71,7 +71,7 @@ async function createPolicy(name) {
         "policyItself": policyItself
     });
     try {
-        await axios.put(url + 'updatePolicy/', requestBody, options)
+        await axios.put(url + 'updatePolicy1/', requestBody, options)
         .then((res) => {
             if (res.status == 200){
                 return true;
@@ -94,7 +94,7 @@ async function updatePolicy(policy) {
         "policyItself": policy
     });
     try {
-        await axios.put(url + 'updatePolicy/', requestBody, options)
+        await axios.put(url + 'updatePolicy1/', requestBody, options)
         .then((res) => {
             if (res.status == 200){
                 return true;

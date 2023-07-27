@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('updatePolicy/', views.updatePolicy, name = 'updatePolicy'),
-    path('getEnrollmentToken/', views.getEnrollmentToken, name = 'getEnrollmentToken'),
+    path('updatePolicy1/', views.updatePolicy1, name = 'updatePolicy1'),
+    path('getEnrollmentToken1/', views.getEnrollmentToken1, name = 'getEnrollmentToken1'),
 
 ]
