@@ -46,8 +46,7 @@ router.get('/:phone/otp', async (req, res) => {
         
         res.statusCode = 200;
         res.send({
-            message: "OTP sent to "+req.params.phone,
-            body: user
+            message: "OTP sent to "+req.params.phone
         });
 
         
