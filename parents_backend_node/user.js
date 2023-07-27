@@ -9,25 +9,46 @@ const ama = require('./ama');
 const { Value, Image, User, Device, Policy } = require('./model');
 
 // get otp
-router.post('/getotp', async (req, res) => { 
+router.get('/:phone/otp', async (req, res) => { 
     try {
         // generate 6 digit random otp
         // var otp = Math.floor(100000 + Math.random() * 900000);
         var otp = '123456';
+
         // check if user with this phone number exists
-        var user = await User.find({ phone: req.body.phone });
+        var user = await User.find({ phone: req.params.phone });
         if (user.length == 0) { 
             var user = new User({
-                phone: req.body.phone,
-                otp: otp
+                phone: req.params.phone,
+                otp: otp,
+                otpExpires: Date.now() + 300000,
+                otpTimestamp: Date.now()
             });
         }
         else {
-            user[0].otp = otp;
+            if (Date.now() - user[0].otpTimestamp > 90000) {
+                user[0].otp = otp;
+            }
+            else {
+                res.statusCode = 400;
+                res.send({
+                    message: "OTP already sent",
+                    body: null
+                });
+
+            }
+
+            
         }
         await user.save();
+
         
-        // create a user with phone number from req.body
+        res.statusCode = 200;
+        res.send({
+            message: "OTP sent to "+req.params.phone,
+            body: user
+        });
+
         
     }
     catch (e) {
@@ -49,6 +70,14 @@ router.post('/verifyotp', async (req, res) => {
             throw "User not found";
         }
         if (user[0].otp == req.body.otp) {
+            if (Date.now() - user[0].otpExpires > 300000) { 
+                res.statusCode = 400;
+                res.send({
+                    message: "OTP expired",
+                    body: null
+                });
+                return;
+            }
             res.statusCode = 200;
             user[0].otp = "";
             await user[0].save();

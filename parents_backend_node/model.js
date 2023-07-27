@@ -40,7 +40,9 @@ const UserModel = mongoose.model('User', new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Device'
     }],
-    otp: String
+    otp: String,
+    otpExpires: Date,
+    otpTimestamp: Date,
     
 }));
 
