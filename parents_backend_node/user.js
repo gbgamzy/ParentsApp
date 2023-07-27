@@ -14,7 +14,7 @@ router.post('/login', async (req, res) => {
         // create a new User
         console.log(req.body)
         // check if request body contains either phone or email
-        if (!req.body.phone && !req.body.email) {
+        if (req.body.phone == "NA" && req.body.email == "NA") {
             res.statusCode = 400;
             res.send({
                 message: "Phone or email required",
