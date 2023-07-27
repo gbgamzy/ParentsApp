@@ -32,6 +32,7 @@ const UserModel = mongoose.model('User', new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true
     },
     tokenCount: {
         type: Number,
@@ -48,25 +49,39 @@ const UserModel = mongoose.model('User', new mongoose.Schema({
 const PolicyModel = mongoose.model('Policy', new mongoose.Schema({
     name: {
         type: String,
-        unique: true,
-        index: true
     },
     applications: [{
         packageName: String,
         installType: String,
+        // FORCE_INSTALLED
+        // BLOCKED
+        // KIOSK
         disabled: Boolean,
     }],
     adjustVolumeDisabled: Boolean,
+    installAppsDisabled: Boolean,
     factoryResetDisabled: Boolean,
     mountPhysicalMediaDisabled: Boolean,
     outgoingCallsDisabled: Boolean,
     usbFileTransferDisabled: Boolean,
+    bluetoothDisabled: Boolean,
     playStoreMode: String,
+    // WHITELIST
+    // BLACKLIST
+    
+    
     advancedSecurityOverrides: {
         "untrustedAppsPolicy": String,
+        // DISALLOW_INSTALL
+        // ALLOW_INSTALL_DEVICE_WIDE
         "developerSettings": String
+        // DEVELOPER_SETTINGS_DISABLED
+        // DEVELOPER_SETTINGS_ALLOWED
     },
     locationMode: String
+    // LOCATION_ENFORCED
+    // LOCATION_USER_CHOICE
+    // LOCATION_DISABLED
 }));
 
 const DeviceModel = mongoose.model('Device', new mongoose.Schema({
@@ -74,6 +89,7 @@ const DeviceModel = mongoose.model('Device', new mongoose.Schema({
     brand: String,
     model: String,
     nickname: String,
+    qrCode: String,
     policy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Policy'
@@ -83,7 +99,6 @@ const DeviceModel = mongoose.model('Device', new mongoose.Schema({
     currentlyEnrolled: Boolean,
     otp: String,
     qrCode: String,
-
 }));
 
 

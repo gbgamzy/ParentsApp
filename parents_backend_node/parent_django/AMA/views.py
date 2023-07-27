@@ -10,13 +10,13 @@ def getEnrollmentToken(request):
     if(request.method != 'POST'):
         return JsonResponse({'message': 'Invalid request'},
                             status=400)
+    
     print("getting enrollment token..")
     data = request.body.decode('utf-8')
     data = json.loads(data)
     
     try:
         
-            
         policy = data['policyItself']
         print(policy)
         policyMade = AMA().patchPolicy(policy)

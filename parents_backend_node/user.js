@@ -1,6 +1,7 @@
 const express=require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const ama = require('./ama');
 
 
 
@@ -11,6 +12,7 @@ const { Value, Image, User, Device, Policy } = require('./model');
 router.post('/login', async (req, res) => { 
     try {
         // create a new User
+        console.log(req.body)
         var user = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -27,15 +29,33 @@ router.post('/login', async (req, res) => {
         });
     }
     catch (e) {
+        console.log(e.keyValue);
         // if user already exists
         if (e.code == 11000) {
             console.log("User already exists");
-            var user = User.find({ userPhone: req.body.phone });
+            var user;
+            // if e.keyValue.phone exists
+            if (e.keyValue.phone) { 
+                user = await User.findOne({ phone: req.body.phone });
+            }
+            else {
+                user = await User.findOne({ email: req.body.email });
+            }
+            
+
+            
+            console.log(user);
+            res.statusCode = 200;
+            // convert user to json format
+            
+            user = JSON.parse(JSON.stringify(user));
+            
             res.statusCode = 200;
             res.send({
                 message: "User already exists",
                 body: user
             });
+            return;
         }
         console.log(e);
         res.statusCode = 400;
@@ -45,6 +65,7 @@ router.post('/login', async (req, res) => {
         });
     }
 });
+
 
 router.delete('/:userId', async (req, res)  => {
     // delete user
@@ -68,52 +89,11 @@ router.delete('/:userId', async (req, res)  => {
     
 });
 
-// login with authorization header
-router.get('/login', async (req, res) => { 
-    console.log("Logging in");
-    try {
-        // get user
-        
-        var authHeader = req.headers.authorization;
-        const auth = Buffer.from(authHeader.split(' ')[1], 'base64').toString('utf-8');
-
-        // Extract the username and password from the decoded string
-        const [username, password] = auth.split(':');
-        console.log(username);
-        var user = await User.find({ userPhone: username }).populate('userAppointments');
-        console.log(user)
-        res.statusCode = 200;
-        if (user.length == 0) {
-            res.statusCode = 204;
-            res.send({
-                message: "User does not exist",
-                body: {}
-            });
-            
-        }
-        else {
-            res.send({
-                message: "User logged in successfully",
-                body: user[0]
-            });
-        }
-        
-    }
-    catch (e) {
-        console.log(e);
-        res.statusCode = 400;
-        res.send({
-            message: "Internal server error",
-            body: e
-        });
-    }
-});
-
 // get devices of a user
 router.get('/:userId/device', async (req, res) => { 
     // get user and populate devices
     try {
-        var user = User.findById(req.params.userId).populate({
+        var user = await User.findById(req.params.userId).populate({
             path: 'devices',
             populate: {
                 path: 'policy',
@@ -153,12 +133,11 @@ router.post('/:userId/token', async (req, res) => {
 });
 
 
-
 // get a particular device of a user
 router.get('/:userId/device/:deviceId', async (req, res) => { 
     // get user and populate devices
     try {
-        var user = User.findById(req.params.userId).populate({
+        var user = await User.findById(req.params.userId).populate({
             path: 'devices',
             match: { _id: req.params.deviceId },
             populate: {
@@ -210,6 +189,138 @@ router.put('/:userId/device/:deviceId', async (req, res) => {
 router.put('/:userId', async (req, res) => { 
     
 });
+
+// get enrollmentToken of a user
+router.post('/enrollmentToken', async (req, res) => {
+    try {
+        var policy = new Policy({
+        applications: [],
+        adjustVolumeDisabled: false,
+        installAppsDisabled: false,
+        factoryResetDisabled: true,
+        mountPhysicalMediaDisabled: false,
+        outgoingCallsDisabled: false,
+        usbFileTransferDisabled: false,
+        bluetoothDisabled: false,
+        playStoreMode: "BLACKLIST",
+        advancedSecurityOverrides: {
+            "untrustedAppsPolicy": "DISALLOW_INSTALL",
+            "developerSettings": "DEVELOPER_SETTINGS_DISABLED"
+        }
+    })
+    await policy.save();
+    var res1 = await ama.createPolicy(policy._id);
+    if (res1 == false) {
+        res.statusCode = 400;
+        res.send({
+            message: "Internal server error",
+            body: "Error in creating policy"
+        });
+        return;
+    }
+    policy.name = ama.policyPrefix + policy._id;
+    await policy.save();
+    var userId = req.body.userId
+    var user = await User.findById(userId);
+    // get size of devices array
+    var numberOfDevices = user.devices.length;
+    var device = new Device({
+        nickname: "Device " + (numberOfDevices + 1),
+        // set createdOn as now date and time
+        createdOn: new Date(),
+        currentlyEnrolled: false,
+        policy: policy._id,
+        // random 6 digit number as otp
+        otp: Math.floor(100000 + Math.random() * 900000),
+    })
+    await device.save();
+    user.devices.push(device._id);    
+    await user.save();
+    let r = await ama.getEnrollmentToken(policy._id);
+    console.log(r);
+    device.qrCode = r;
+    device.save()
+    if(r == null) {
+        res.statusCode = 400;
+        res.send({
+            message: "Internal server error",
+            body: e
+        });
+    }
+    else {
+        
+        res.statusCode = 200;
+        res.send({
+            message: "Enrollment token generated successfully",
+            body: r
+        });
+        }
+    }
+    catch (e) {
+        console.log(e);
+        res.statusCode = 400;
+        res.send({
+            message: "Internal server error",
+            body: e
+        });
+    }
+});
+
+// put request taking in userId and deviceId as params to update device
+router.put('/:userId/devices/:deviceId', async (req, res) => {
+    try {
+        var device = await Device.findById(req.params.deviceId);
+        device.nickname = req.body.nickname;
+        await device.save();
+        res.statusCode = 200;
+        res.send({
+            message: "Device updated successfully",
+            body: device
+        });
+    }
+    catch (e) {
+        res.statusCode = 400;
+        res.send({
+            message: "Internal server error",
+            body: e
+        });
+    }
+});
+
+// put request taking in userId, deviceId and policyId as params to update policy
+router.put('/:userId/devices/:deviceId/policy/:policyId', async (req, res) => { 
+    try {
+        var policy = Policy.findById(req.params.policyId);
+        policy.adjustVolumeDisabled = req.body.adjustVolumeDisabled??policy.adjustVolumeDisabled;
+        policy.installAppsDisabled = req.body.installAppsDisabled ?? policy.installAppsDisabled;
+        policy.mountPhysicalMediaDisabled = req.body.mountPhysicalMediaDisabled ?? policy.mountPhysicalMediaDisabled;
+        policy.outgoingCallsDisabled = req.body.outgoingCallsDisabled ?? policy.outgoingCallsDisabled;
+        policy.usbFileTransferDisabled = req.body.usbFileTransferDisabled ?? policy.usbFileTransferDisabled;
+        policy.bluetoothDisabled = req.body.bluetoothDisabled ?? policy.bluetoothDisabled;
+        policy.playStoreMode = req.body.playStoreMode ?? policy.playStoreMode;
+        policy.applications = req.body.applications ?? policy.applications;
+        policy.locationMode = req.body.locationMode ?? policy.locationMode;
+        policy.advancedSecurityOverrides = req.body.advancedSecurityOverrides ?? policy;
+        var result = await ama.updatePolicy(req.body);
+        if (result == false) {
+            throw "Error in updating policy";
+        }
+        await policy.save();
+        res.statusCode = 200;
+        res.send({
+            message: "Policy updated successfully",
+            body: device
+        });
+    }
+    catch (e) {
+        res.statusCode = 400;
+        res.send({
+            message: "Internal server error",
+            body: e
+        });
+    }
+});
+
 
 
 
