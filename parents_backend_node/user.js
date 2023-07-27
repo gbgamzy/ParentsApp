@@ -207,8 +207,21 @@ router.put('/:userId', async (req, res) => {
 });
 
 // get enrollmentToken of a user
-router.post('/enrollmentToken', async (req, res) => {
+router.post('/:userId/enrollmentToken', async (req, res) => {
+    var flag = 0;
+    var policyId = "", deviceId = "";
     try {
+        // check if tokenCount of user is greater than 0
+        var user = await User.findById(req.params.userId);
+        if (user.tokenCount <= 0) {
+            res.statusCode = 400;
+            res.send({
+                message: "Token count is 0",
+                body: "Token count is 0"
+            });
+            return;
+        }
+        
         var policy = new Policy({
         applications: [],
         adjustVolumeDisabled: false,
@@ -223,19 +236,18 @@ router.post('/enrollmentToken', async (req, res) => {
             "untrustedAppsPolicy": "DISALLOW_INSTALL",
             "developerSettings": "DEVELOPER_SETTINGS_DISABLED"
         }
-    })
-    await policy.save();
+        })
+        
+        await policy.save();
+        
     var res1 = await ama.createPolicy(policy._id);
-    if (res1 == false) {
-        res.statusCode = 400;
-        res.send({
-            message: "Internal server error",
-            body: "Error in creating policy"
-        });
-        return;
+        if (res1 == false) {
+        throw new Error("Error in creating policy");
     }
     policy.name = ama.policyPrefix + policy._id;
-    await policy.save();
+        await policy.save();
+    flag = 1;
+    policyId = policy._id;
     var userId = req.body.userId
     var user = await User.findById(userId);
     // get size of devices array
@@ -251,20 +263,18 @@ router.post('/enrollmentToken', async (req, res) => {
     })
     await device.save();
     user.devices.push(device._id);    
-    await user.save();
+        await user.save();
+        flag = 2;
+        deviceId = device._id;
     let r = await ama.getEnrollmentToken(policy._id);
     console.log(r);
     device.qrCode = r;
     device.save()
     if(r == null) {
-        res.statusCode = 400;
-        res.send({
-            message: "Internal server error",
-            body: e
-        });
+        throw new Error("Error in generating enrollment token");
     }
     else {
-        
+        await User.updateOne({ _id: req.params.userId }, { $inc: { tokenCount: -1 } });
         res.statusCode = 200;
         res.send({
             message: "Enrollment token generated successfully",
@@ -273,6 +283,18 @@ router.post('/enrollmentToken', async (req, res) => {
         }
     }
     catch (e) {
+        if (flag >= 1) {
+            // delete the created policy using policyId
+            await Policy.deleteOne({ _id: policyId });
+        }
+        if (flag == 2) { 
+            // delete the created device using deviceId and pop it out of the user's devices array using deviceId
+            await Device.deleteOne({ _id: deviceId });
+            await User.updateOne({ _id: req.params.userId }, { $pull: { devices: deviceId } });
+            
+
+        }
+            
         console.log(e);
         res.statusCode = 400;
         res.send({
