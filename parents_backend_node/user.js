@@ -8,6 +8,73 @@ const ama = require('./ama');
 // import models from model.js
 const { Value, Image, User, Device, Policy } = require('./model');
 
+// get otp
+router.post('/getotp', async (req, res) => { 
+    try {
+        // generate 6 digit random otp
+        // var otp = Math.floor(100000 + Math.random() * 900000);
+        var otp = '123456';
+        // check if user with this phone number exists
+        var user = await User.find({ phone: req.body.phone });
+        if (user.length == 0) { 
+            var user = new User({
+                phone: req.body.phone,
+                otp: otp
+            });
+        }
+        else {
+            user[0].otp = otp;
+        }
+        await user.save();
+        
+        // create a user with phone number from req.body
+        
+    }
+    catch (e) {
+        console.log(e);
+        res.statusCode = 500;
+        res.send({
+            message: "Internal server error",
+            body: e
+        });
+
+    }
+});
+
+// verify otp
+router.post('/verifyotp', async (req, res) => { 
+    try {
+        var user = await User.find({ phone: req.body.phone });
+        if (user.length == 0) {
+            throw "User not found";
+        }
+        if (user[0].otp == req.body.otp) {
+            res.statusCode = 200;
+            user[0].otp = "";
+            await user[0].save();
+            res.send({
+                message: "OTP verified",
+                body: user
+            });
+        }
+        else {
+            res.statusCode = 400;
+            res.send({
+                message: "OTP not verified",
+                body: null
+            });
+        }
+    }
+    catch (e) {
+        console.log(e);
+        res.statusCode = 500;
+        res.send({
+            message: "Internal server error",
+            body: e
+        });
+    }
+});
+
 // get user 
 router.post('/userexists', async (req, res) => { 
     try {
@@ -46,6 +113,7 @@ router.post('/userexists', async (req, res) => {
         });
     }
 });
+
 // create user 
 router.post('/login', async (req, res) => { 
     try {
