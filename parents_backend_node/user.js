@@ -35,6 +35,7 @@ router.get('/:phone/otp', async (req, res) => {
                     message: "OTP already sent",
                     body: null
                 });
+                return;
 
             }
 
@@ -79,8 +80,6 @@ router.post('/:phone/otp', async (req, res) => {
                 return;
             }
             res.statusCode = 200;
-            user[0].otp = "";
-            await user[0].save();
             res.send({
                 message: "OTP verified",
                 body: user
