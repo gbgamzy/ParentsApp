@@ -28,7 +28,6 @@ const UserModel = mongoose.model('User', new mongoose.Schema({
     phone: {
         type: String,
         unique: true,
-        required: true
     },
     email: {
         type: String,
