@@ -8,6 +8,44 @@ const ama = require('./ama');
 // import models from model.js
 const { Value, Image, User, Device, Policy } = require('./model');
 
+// get user 
+router.post('/userexists', async (req, res) => { 
+    try {
+       //check if user exists by using either phone or email
+        var user;
+        if (req.body.phone != "NA") {
+            user = await User.find({ phone: req.body.phone });
+        }
+        else if (req.body.email != "NA") {
+            user = await User.find({ email: req.body.email });
+        }
+        if (user.length != 0) { 
+            console.log(user);
+            res.statusCode = 200;
+            res.send({
+                message: "User found",
+                body: user
+            });
+            return;
+        } 
+        else {
+            res.statusCode = 200;
+            res.send({
+                message: "User not found",
+                body: null
+            });
+            return;
+        }
+    }
+    catch (e) {
+        console.log(e);
+        res.statusCode = 500;
+        res.send({
+            message: "Internal server error",
+            body: null
+        });
+    }
+});
 // create user 
 router.post('/login', async (req, res) => { 
     try {

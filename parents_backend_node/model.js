@@ -20,7 +20,6 @@ const ValueModel = mongoose.model('Value', new mongoose.Schema({
 const UserModel = mongoose.model('User', new mongoose.Schema({
     firstName: {
         type: String,
-        required: true
     },
     lastName: {
         type: String,
@@ -40,7 +39,8 @@ const UserModel = mongoose.model('User', new mongoose.Schema({
     devices: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Device'
-    }]
+    }],
+    otp: String
     
 }));
 
