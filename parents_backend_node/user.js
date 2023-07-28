@@ -16,8 +16,8 @@ router.get('/:phone/otp', async (req, res) => {
         var otp = '123456';
 
         // check if user with this phone number exists
-        var user = await User.find({ phone: req.params.phone });
-        if (user.length == 0) { 
+        var user = await User.findOne({ phone: req.params.phone });
+        if (!user) { 
             var user = new User({
                 phone: req.params.phone,
                 otp: otp,
@@ -26,8 +26,8 @@ router.get('/:phone/otp', async (req, res) => {
             });
         }
         else {
-            if (Date.now() - user[0].otpTimestamp > 90000) {
-                user[0].otp = otp;
+            if (Date.now() - user.otpTimestamp > 90000) {
+                user.otp = otp;
             }
             else {
                 res.statusCode = 400;
@@ -41,7 +41,7 @@ router.get('/:phone/otp', async (req, res) => {
 
             
         }
-        await user[0].save();
+        await user.save();
 
         
         res.statusCode = 200;
@@ -65,12 +65,12 @@ router.get('/:phone/otp', async (req, res) => {
 // verify otp
 router.post('/:phone/otp', async (req, res) => { 
     try {
-        var user = await User.find({ phone: req.params.phone });
-        if (user.length == 0) {
+        var user = await User.findOne({ phone: req.params.phone });
+        if (!user) {
             throw "User not found";
         }
-        if (user[0].otp == req.body.otp) {
-            if (Date.now() - user[0].otpExpires > 300000) { 
+        if (user.otp == req.body.otp) {
+            if (Date.now() - user.otpExpires > 300000) { 
                 res.statusCode = 400;
                 res.send({
                     message: "OTP expired",
@@ -87,7 +87,7 @@ router.post('/:phone/otp', async (req, res) => {
         else {
             res.statusCode = 400;
             res.send({
-                message: "OTP not verified",
+                message: "Wrong OTP",
                 body: null
             });
         }
@@ -156,21 +156,27 @@ router.post('/login', async (req, res) => {
             return;
         }
         // check if request body contains both phone and email
-        var user = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-        });
-        if (req.body.phone != "NA") {
-            user.phone = req.body.phone;
-        }
-        else if (req.body.email != "NA") {
+        if (req.body.email != "NA") {
+            var user = new User({
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+            });
             user.email = req.body.email;
+            await user.save();
+        }
+        else if (req.body.phone != "NA") { 
+            var user = await User.findOne({ phone: req.body.phone });
+            if (!user) {
+                throw "User not found";
+            }
+            user.firstName = req.body.firstName;
+            user.lastName = req.body.lastName;
+            await user.save();
+
         }
         
         
         // save user
-        var result = await user.save();
-        console.log(result);
         res.statusCode = 200;
         res.send({
             message: "User created successfully",
@@ -366,7 +372,7 @@ router.get('/:userId/enrollmentToken', async (req, res) => {
 });
 
 // put request taking in userId and deviceId as params to update device
-router.put('/:userId/devices/:deviceId', async (req, res) => {
+router.put('/:userId/device/:deviceId', async (req, res) => {
     try {
         var device = await Device.findById(req.params.deviceId);
         device.nickname = req.body.nickname;
@@ -387,19 +393,21 @@ router.put('/:userId/devices/:deviceId', async (req, res) => {
 });
 
 // put request taking in userId, deviceId and policyId as params to update policy
-router.put('/:userId/devices/:deviceId/policy/:policyId', async (req, res) => { 
+router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => { 
     try {
+        
         var policy = Policy.findById(req.params.policyId);
-        policy.adjustVolumeDisabled = req.body.adjustVolumeDisabled??policy.adjustVolumeDisabled;
-        policy.installAppsDisabled = req.body.installAppsDisabled ?? policy.installAppsDisabled;
-        policy.mountPhysicalMediaDisabled = req.body.mountPhysicalMediaDisabled ?? policy.mountPhysicalMediaDisabled;
-        policy.outgoingCallsDisabled = req.body.outgoingCallsDisabled ?? policy.outgoingCallsDisabled;
-        policy.usbFileTransferDisabled = req.body.usbFileTransferDisabled ?? policy.usbFileTransferDisabled;
-        policy.bluetoothDisabled = req.body.bluetoothDisabled ?? policy.bluetoothDisabled;
-        policy.playStoreMode = req.body.playStoreMode ?? policy.playStoreMode;
-        policy.applications = req.body.applications ?? policy.applications;
-        policy.locationMode = req.body.locationMode ?? policy.locationMode;
-        policy.advancedSecurityOverrides = req.body.advancedSecurityOverrides ?? policy;
+        policy.adjustVolumeDisabled = req.body.policyItself.adjustVolumeDisabled??policy.adjustVolumeDisabled;
+        policy.installAppsDisabled = req.body.policyItself.installAppsDisabled ?? policy.installAppsDisabled;
+        policy.mountPhysicalMediaDisabled = req.body.policyItself.mountPhysicalMediaDisabled ?? policy.mountPhysicalMediaDisabled;
+        policy.outgoingCallsDisabled = req.body.policyItself.outgoingCallsDisabled ?? policy.outgoingCallsDisabled;
+        policy.usbFileTransferDisabled = req.body.policyItself.usbFileTransferDisabled ?? policy.usbFileTransferDisabled;
+        policy.bluetoothDisabled = req.body.policyItself.bluetoothDisabled ?? policy.bluetoothDisabled;
+        policy.playStoreMode = req.body.policyItself.playStoreMode ?? policy.playStoreMode;
+        policy.applications = req.body.policyItself.applications ?? policy.applications;
+        policy.locationMode = req.body.policyItself.locationMode ?? policy.locationMode;
+        policy.advancedSecurityOverrides = req.body.policyItself.advancedSecurityOverrides ?? policy;
+        
         var result = await ama.updatePolicy(req.body);
         if (result == false) {
             throw "Error in updating policy";
