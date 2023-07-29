@@ -28,6 +28,8 @@ router.get('/:phone/otp', async (req, res) => {
         else {
             if (Date.now() - user.otpTimestamp > 90000) {
                 user.otp = otp;
+                user.otpExpires = Date.now() + 300000;
+                user.otpTimestamp = Date.now();
             }
             else {
                 res.statusCode = 400;
