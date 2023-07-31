@@ -13,6 +13,7 @@ router.get('/:phone/otp', async (req, res) => {
     try {
         // generate 6 digit random otp
         // var otp = Math.floor(100000 + Math.random() * 900000);
+        console.log.og("Getting OTP")
         var otp = '123456';
 
         // check if user with this phone number exists
@@ -67,6 +68,8 @@ router.get('/:phone/otp', async (req, res) => {
 // verify otp
 router.post('/:phone/otp', async (req, res) => { 
     try {
+        console.log("Verifying OTP")
+        console.log(req.body);
         var user = await User.findOne({ phone: req.params.phone });
         if (!user) {
             throw "User not found";
@@ -144,7 +147,7 @@ router.post('/userexists', async (req, res) => {
 });
 
 // create user 
-router.post('/login', async (req, res) => { 
+router.post('/login', async (req, res) => {
     try {
         // create a new User
         console.log(req.body)
