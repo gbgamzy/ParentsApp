@@ -27,10 +27,14 @@ const UserModel = mongoose.model('User', new mongoose.Schema({
     phone: {
         type: String,
         unique: true,
+        partialFilterExpression: {phone: {$exists: true}}
     },
     email: {
         type: String,
-        unique: true
+        unique: true,
+        partialFilterExpression: { email: { $exists: true } }
+        // explain what this does
+        
     },
     tokenCount: {
         type: Number,
