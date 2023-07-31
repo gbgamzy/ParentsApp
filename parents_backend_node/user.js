@@ -109,7 +109,47 @@ router.post('/:phone/otp', async (req, res) => {
             body: e
         });
     }
+
 });
+
+// put request to update user with userId in params
+router.put('/:userId', async (req, res) => { 
+    try {
+        var user = await User.findById(req.params.userId);
+        if (!user) { 
+            throw "User not found";
+        }
+        if (req.body.firstName) { 
+            user.firstName = req.body.firstName;
+        }
+        if (req.body.lastName) {
+            user.lastName = req.body.lastName;
+        }
+        if (req.body.email) {
+            user.email = req.body.email;
+        }
+        if (req.body.phone) {
+            user.phone = req.body.phone;
+        }
+        await user.save();
+        res.statusCode = 200;
+        res.send({
+            message: "User updated",
+            body: user
+        });
+
+    }
+    catch (err) {
+        console.log(err);
+        res.statusCode = 500;
+        res.send({
+            message: err,
+            body:err
+        });
+    }
+})
+
+// 
 
 // get user 
 router.post('/userexists', async (req, res) => { 
