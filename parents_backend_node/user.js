@@ -84,7 +84,10 @@ router.post('/:phone/otp', async (req, res) => {
                 });
                 return;
             }
-            res.statusCode = 200;
+            if(!user.firstName)
+                res.statusCode = 201;
+            else
+                res.statusCode = 200;
             res.send({
                 message: "OTP verified",
                 body: user
