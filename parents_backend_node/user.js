@@ -14,6 +14,7 @@ router.get('/:phone/otp', async (req, res) => {
         // generate 6 digit random otp
         // var otp = Math.floor(100000 + Math.random() * 900000);
         console.log("Getting OTP")
+        console.log(req.params.phone);
         var otp = '123456';
 
         // check if user with this phone number exists
