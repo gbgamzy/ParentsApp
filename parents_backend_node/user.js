@@ -352,7 +352,7 @@ router.get('/:userId/device/:deviceId', async (req, res) => {
             //     model: 'Policy'
             // }
         });
-        console.log(user);
+        console.log(device);
         res.statusCode = 200;
         res.send({
             message: "Device found",
