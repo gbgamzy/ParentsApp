@@ -343,19 +343,20 @@ router.post('/:userId/token', async (req, res) => {
 router.get('/:userId/device/:deviceId', async (req, res) => { 
     // get user and populate devices
     try {
-        var user = await User.findById(req.params.userId).populate({
-            path: 'devices',
-            match: { _id: req.params.deviceId },
-            populate: {
-                path: 'policy',
-                model: 'Policy'
-            }
+        var device = await Device.findById(req.params.deviceId).populate({
+            path: 'policy',
+            model: 'Policy'
+            // match: { _id: req.params.deviceId },
+            // populate: {
+            //     path: 'policy',
+            //     model: 'Policy'
+            // }
         });
         console.log(user);
         res.statusCode = 200;
         res.send({
             message: "Device found",
-            body: user
+            body: device
         });
     }
     catch (e) {
@@ -554,7 +555,6 @@ async function createEnrollmentToken(userId) {
             // delete the created device using deviceId and pop it out of the user's devices array using deviceId
             await Device.deleteOne({ _id: deviceId });
             await User.updateOne({ _id: userId }, { $pull: { devices: deviceId } });
-            
 
         }
             
