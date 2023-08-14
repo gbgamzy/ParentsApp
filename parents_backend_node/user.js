@@ -484,7 +484,7 @@ async function createEnrollmentToken(userId) {
     var policyId = "", deviceId = "";
     try {
         // check if tokenCount of user is greater than 0
-        var user = await User.findById(req.params.userId);
+        var user = await User.findById(userId);
         if (user.tokenCount <= 0) {
             throw new Error("User has no tokens left");
         }
@@ -515,7 +515,7 @@ async function createEnrollmentToken(userId) {
         await policy.save();
     flag = 1;
     policyId = policy._id;
-    var userId = req.body.userId
+    userId
     var user = await User.findById(userId);
     // get size of devices array
     var numberOfDevices = user.devices.length;
@@ -541,7 +541,7 @@ async function createEnrollmentToken(userId) {
         throw new Error("Error in generating enrollment token");
     }
     else {
-        await User.updateOne({ _id: req.params.userId }, { $inc: { tokenCount: -1 } });
+        await User.updateOne({ _id: userId }, { $inc: { tokenCount: -1 } });
         return true;
     }
     }
@@ -553,7 +553,7 @@ async function createEnrollmentToken(userId) {
         if (flag == 2) { 
             // delete the created device using deviceId and pop it out of the user's devices array using deviceId
             await Device.deleteOne({ _id: deviceId });
-            await User.updateOne({ _id: req.params.userId }, { $pull: { devices: deviceId } });
+            await User.updateOne({ _id: userId }, { $pull: { devices: deviceId } });
             
 
         }
