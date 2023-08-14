@@ -67,7 +67,7 @@ router.get('/:phone/otp', async (req, res) => {
 });
 
 // verify otp
-router.post('/:phone/otp', async (req, res) => { 
+router.post('/:phone/otp', async (req, res) => {    
     try {
         console.log("Verifying OTP")
         console.log(req.body);
