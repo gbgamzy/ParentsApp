@@ -304,6 +304,12 @@ router.get('/:userId/device', async (req, res) => {
                 model: 'Policy'
             }
         });
+        res.statusCode = 200;
+        res.send({
+            message: "Devices found",
+            body: user.devices
+        });
+        
     }
     catch (e) {
         console.log(e);
@@ -369,38 +375,9 @@ router.get('/:userId/device/:deviceId', async (req, res) => {
     }
 });
 
-// update device of a user
-router.put('/:userId/device/:deviceId', async (req, res) => { 
-    // get device by deviceId and update from body
-    try {
-        var device = req.body.device;
-        await Device.updateOne({ _id: req.params.deviceId }, {device});
-        console.log(device);
-        res.statusCode = 200;
-        res.send({
-            message: "Device updated successfully",
-            body: device
-        });
-    }
-    catch(e) {
-        console.log(e);
-        res.statusCode = 400;
-        res.send({
-            message: "Internal server error",
-            body: e
-        });
-    }
-});
-
-// update user details
-router.put('/:userId', async (req, res) => { 
-    
-});
 
 // get enrollmentTokens of a user
 router.get('/:userId/enrollmentToken', async (req, res) => {
-    var flag = 0;
-    var policyId = "", deviceId = "";
     try {
         // check if tokenCount of user is greater than 0
         var user = await User.findById(req.params.userId);
