@@ -296,6 +296,7 @@ router.delete('/:userId', async (req, res)  => {
 // get devices of a user
 router.get('/:userId/device', async (req, res) => { 
     // get user and populate devices
+    console.log("Getting devices for user" + req.params.userId);
     try {
         var user = await User.findById(req.params.userId).populate({
             path: 'devices',
@@ -304,12 +305,14 @@ router.get('/:userId/device', async (req, res) => {
                 model: 'Policy'
             }
         });
+        console.log(user.devices);
         res.statusCode = 200;
         res.send({
             message: "Devices found",
-            body: user.devices
+            body: user.devices,
+            devices: user.devices
         });
-        
+
     }
     catch (e) {
         console.log(e);
