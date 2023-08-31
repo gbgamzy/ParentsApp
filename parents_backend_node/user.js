@@ -437,7 +437,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
         policy.playStoreMode = req.body.policyItself.playStoreMode ?? policy.playStoreMode;
         policy.applications = req.body.policyItself.applications ?? policy.applications;
         policy.locationMode = req.body.policyItself.locationMode ?? policy.locationMode;
-        policy.advancedSecurityOverrides = req.body.policyItself.advancedSecurityOverrides ?? policy;
+        policy.advancedSecurityOverrides = req.body.policyItself.advancedSecurityOverrides ?? policy.advancedSecurityOverrides;
         
         var result = await ama.updatePolicy(req.body);
         if (result == false) {

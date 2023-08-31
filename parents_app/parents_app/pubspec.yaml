@@ -39,7 +39,7 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   flutter_slidable: ^2.0.0
   flutter_svg: ^1.1.6
-  http: ^0.13.5
+  http: ^1.1.0
   shared_preferences: ^2.0.17
   google_nav_bar: ^5.0.2
   flutter_neumorphic: ^3.2.0
@@ -63,6 +63,7 @@ dependencies:
   permission_handler: ^10.2.0
   flutter_local_notifications: ^8.2.0
   android_conversation_shortcut: ^0.0.3
+  flutter_secure_storage: ^9.0.0
   
   
 
