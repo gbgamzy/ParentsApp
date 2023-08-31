@@ -7,7 +7,7 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    // "**/android": true,
+    "**/android": true,
     "**/ios": true,
     "**/build": true,
     "**/linux": true,
