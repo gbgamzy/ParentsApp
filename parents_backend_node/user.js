@@ -427,7 +427,7 @@ router.put('/:userId/device/:deviceId', async (req, res) => {
 router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => { 
     try {
         
-        var policy = Policy.findById(req.params.policyId);
+        var policy = await Policy.findById(req.params.policyId);
         policy.adjustVolumeDisabled = req.body.policyItself.adjustVolumeDisabled??policy.adjustVolumeDisabled;
         policy.installAppsDisabled = req.body.policyItself.installAppsDisabled ?? policy.installAppsDisabled;
         policy.mountPhysicalMediaDisabled = req.body.policyItself.mountPhysicalMediaDisabled ?? policy.mountPhysicalMediaDisabled;
@@ -439,7 +439,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
         policy.locationMode = req.body.policyItself.locationMode ?? policy.locationMode;
         policy.advancedSecurityOverrides = req.body.policyItself.advancedSecurityOverrides ?? policy.advancedSecurityOverrides;
         
-        var result = await ama.updatePolicy(req.body);
+        var result = await ama.updatePolicy(req.body.policyItself);
         if (result == false) {
             throw "Error in updating policy";
         }
@@ -447,10 +447,11 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
         res.statusCode = 200;
         res.send({
             message: "Policy updated successfully",
-            body: device
+            body: policy
         });
     }
     catch (e) {
+	    console.log(e);
         res.statusCode = 400;
         res.send({
             message: "Internal server error",
