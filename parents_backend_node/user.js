@@ -2,11 +2,83 @@ const express=require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const ama = require('./ama');
+const fs = require('fs');
+const path = require('path');
+
 
 
 
 // import models from model.js
 const { Value, Image, User, Device, Policy } = require('./model');
+
+// get image
+router.get('/image/:image', async (req, res) => { 
+    console.log("Getting image");
+    try {
+        const image = await Image.findOne({name: req.params.image});
+        res.statusCode = 200;
+        res.send(image.image);
+    }
+    catch (e) {
+        console.log(e);
+        res.statusCode = 400;
+        res.send({
+            message: "Internal server error",
+            body: e
+        });
+    }
+});
+
+// upload image
+router.post('/image/:image', async (req, res) => { 
+    console.log("Uploading image");
+    if (!req.files.file) {
+        return res.status(400).send('No image data found');
+    }
+    
+    try {
+        
+        const file = req.files.file;
+
+        // Do something with the file
+        console.log(file.name);
+        console.log(file.data);
+
+        const imageSize = Buffer.byteLength(file.data, 'utf8');
+        console.log(`Image size: ${imageSize} bytes`);
+
+        // upload image to database with image._id = req.params.image
+        const image = await Image.findOne({ name: req.params.phone });
+        if (image) {
+            await Image.updateOne({ _id: req.params.image }, {
+                image: file.data
+            });
+        }
+        else {
+            var i = new Image({
+                name: req.params.image,
+                image: file.data
+            })
+            await i.save();
+        }
+        res.statusCode = 200;
+            res.send({
+                message: "Image uploaded successfully",
+                body: file
+            });
+        
+    }
+    catch (e) {
+        console.log(e);
+        res.statusCode = 400;
+        res.send({
+            message: "Internal server error",
+            body: e
+        });
+
+    }
+});
+
 
 // get otp
 router.get('/:phone/otp', async (req, res) => { 

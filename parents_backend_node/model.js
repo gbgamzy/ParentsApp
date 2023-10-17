@@ -124,6 +124,12 @@ const DeviceModel = mongoose.model('Device', new mongoose.Schema({
 
 
 const ImageModel = mongoose.model('Image', new mongoose.Schema({
+    name: {
+        type: String,
+        index: true,
+        unique: true,
+        required: true
+    },
     image: {
         type: Buffer
     },
