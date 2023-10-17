@@ -44,6 +44,7 @@ const UserModel = mongoose.model('User', new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Device'
     }],
+    image: String,
     otp: String,
     otpExpires: Date,
     otpTimestamp: Date,
@@ -104,6 +105,15 @@ const DeviceModel = mongoose.model('Device', new mongoose.Schema({
     currentlyEnrolled: Boolean,
     otp: String,
     qrCode: String,
+    image: String,
+    apps: [{
+        package: {
+            type: String,
+            unique: true
+        },
+        name: String,
+        imageLink: String
+    }]
 }));
 
 

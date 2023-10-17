@@ -407,6 +407,7 @@ router.put('/:userId/device/:deviceId', async (req, res) => {
     try {
         var device = await Device.findById(req.params.deviceId);
         device.nickname = req.body.nickname;
+        device.apps = req.body.apps;
         await device.save();
         res.statusCode = 200;
         res.send({
@@ -451,7 +452,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
         });
     }
     catch (e) {
-	    console.log(e);
+        console.log(e);
         res.statusCode = 400;
         res.send({
             message: "Internal server error",
