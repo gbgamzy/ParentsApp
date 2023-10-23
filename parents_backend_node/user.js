@@ -49,6 +49,7 @@ router.post('/image/:image', async (req, res) => {
 
         // upload image to database with image._id = req.params.image
         const image = await Image.findOne({ name: req.params.phone });
+        console.log(image)
         if (image) {
             await Image.updateOne({ _id: req.params.image }, {
                 image: file.data
