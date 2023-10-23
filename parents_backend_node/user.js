@@ -48,7 +48,7 @@ router.post('/image/:image', async (req, res) => {
         console.log(`Image size: ${imageSize} bytes`);
 
         // upload image to database with image._id = req.params.image
-        const image = await Image.findOne({ name: req.params.phone });
+        const image = await Image.findOne({ name: req.params.image });
         console.log(image)
         if (image) {
             await Image.updateOne({ _id: req.params.image }, {
