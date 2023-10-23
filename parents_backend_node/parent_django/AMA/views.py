@@ -50,7 +50,7 @@ def updatePolicy1(request):
     
     try:
         data = json.loads(request.body)
-        # print(data)
+        print(data)
         
         apiPatch = AMA().patchPolicy(data['policyItself'])
         if(apiPatch == True):
@@ -66,7 +66,7 @@ def updatePolicy1(request):
                             status=503)
         
     except Exception as e:
-        print(e)
+        # print(e)
         return JsonResponse({'message': 'Some error occured',
                             'body': {},
                             'error': str(e)
