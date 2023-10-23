@@ -16,7 +16,7 @@ def getEnrollmentToken1(request):
     data = json.loads(data)
     try:
         policy = data['policyItself']
-        print(policy)
+        # print(policy)
         policyMade = AMA().patchPolicy(policy)
         if(policyMade == False):
             return JsonResponse({'message': 'Some error occured'},
@@ -50,7 +50,7 @@ def updatePolicy1(request):
     
     try:
         data = json.loads(request.body)
-        print(data)
+        # print(data)
         
         apiPatch = AMA().patchPolicy(data['policyItself'])
         if(apiPatch == True):
