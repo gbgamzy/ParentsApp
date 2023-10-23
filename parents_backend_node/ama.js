@@ -100,7 +100,7 @@ async function updatePolicy(policy) {
                 return true;
             }
             else {
-                console.log(res.data);
+                // console.log(res.data);
                 return false;
             }
             
