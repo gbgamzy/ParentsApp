@@ -516,6 +516,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
         console.log("Mongodb");
         console.log(policy)
         delete req.body.policyItself._id;
+        delete req.body.policyItself.applications;
         console.log(req.body.policyItself);
         var result = await ama.updatePolicy(req.body.policyItself);
         if (result == false) {
