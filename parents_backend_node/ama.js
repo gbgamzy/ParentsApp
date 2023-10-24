@@ -108,7 +108,7 @@ async function updatePolicy(policy) {
         });
     }
     catch (e) {
-        console.log(e);
+        // console.log(e);
         return false;
     }
 }
