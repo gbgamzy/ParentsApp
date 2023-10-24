@@ -74,6 +74,6 @@ def updatePolicy1(request):
                             'body': {},
                             'error': str(e)
                             },
-                            status=400)
+                            status=403)
 
 
