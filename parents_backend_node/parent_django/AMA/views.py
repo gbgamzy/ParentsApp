@@ -50,7 +50,7 @@ def updatePolicy1(request):
     
     try:
         data = json.loads(request.body)
-        print(data)
+        # print(data)
         
         apiPatch = AMA().patchPolicy(data['policyItself'])
         if(apiPatch == True):

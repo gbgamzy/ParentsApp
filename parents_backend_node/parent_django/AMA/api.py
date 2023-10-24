@@ -41,6 +41,7 @@ class AMA:
         #     f.write('\n')
 
         try:
+            print(policy)
             self.api.enterprises().policies().patch(
                 name = policy['name'],
                 body = policy
@@ -51,6 +52,7 @@ class AMA:
             #     f.write(str(e))
             #     # new line
             #     f.write('\n')
+            print("Prinitng AMA django error")
             print(e)
             return e
 
