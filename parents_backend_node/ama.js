@@ -101,10 +101,11 @@ async function updatePolicy(policy) {
     });
     console.log("Request body")
     console.log(policy);
-    console.log(policy.advancedSecurityOverrides)
+    console.log(policy.policyItself.advancedSecurityOverrides)
+    delete policy.policyItself.advancedSecurityOverrides;
 
     try {
-        await axios.put(url + 'updatePolicy1/', {policyItself: policy}
+        await axios.put(url + 'updatePolicy1/', policy
             // , options1
         )
             .then((res) => {
@@ -122,7 +123,7 @@ async function updatePolicy(policy) {
     }
     catch (e) {
         console.log("Error from axios");
-        console.log(e.data)
+        console.log(e)
         return false;
     }
 }
