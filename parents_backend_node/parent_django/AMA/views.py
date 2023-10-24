@@ -49,6 +49,8 @@ def updatePolicy1(request):
     print("updating policy..")
     
     try:
+        print("Printing Django view")
+        print(request.body)
         data = json.loads(request.body)
         # print(data)
         

@@ -41,6 +41,7 @@ class AMA:
         #     f.write('\n')
 
         try:
+            print("printing AMA django policy")
             print(policy)
             self.api.enterprises().policies().patch(
                 name = policy['name'],

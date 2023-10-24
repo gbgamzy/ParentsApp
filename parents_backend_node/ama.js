@@ -93,6 +93,7 @@ async function updatePolicy(policy) {
     var requestBody = JSON.stringify({
         "policyItself": policy
     });
+    
     console.log(requestBody);
     try {
         await axios.put(url + 'updatePolicy1/', requestBody, options)
