@@ -42,7 +42,7 @@ def getEnrollmentToken1(request):
 
 @csrf_exempt
 def updatePolicy1(request):
-        
+    print("Django View")
     if(request.method != 'PUT'):
         print("Invalid method")
         return JsonResponse({'message': 'Invalid request'},
