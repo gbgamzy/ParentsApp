@@ -501,7 +501,7 @@ router.put('/:userId/device/:deviceId', async (req, res) => {
 // put request taking in userId, deviceId and policyId as params to update policy
 router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => { 
     try {
-        console.log(req.body.policyItself);
+        
         var policy = await Policy.findById(req.params.policyId);
         policy.adjustVolumeDisabled = req.body.policyItself.adjustVolumeDisabled??policy.adjustVolumeDisabled;
         policy.installAppsDisabled = req.body.policyItself.installAppsDisabled ?? policy.installAppsDisabled;
@@ -515,6 +515,8 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
         policy.advancedSecurityOverrides = req.body.policyItself.advancedSecurityOverrides ?? policy.advancedSecurityOverrides;
         console.log("Mongodb");
         console.log(policy)
+        delete req.body.policyItself._id;
+        console.log(req.body.policyItself);
         var result = await ama.updatePolicy(req.body.policyItself);
         if (result == false) {
             throw "Error in updating policy";
