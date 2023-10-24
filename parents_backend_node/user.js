@@ -90,7 +90,6 @@ router.get('/:phone/otp', async (req, res) => {
         console.log("Getting OTP")
         console.log(req.params.phone);
         var otp = '123456';
-
         // check if user with this phone number exists
         var user = await User.findOne({ phone: req.params.phone });
         if (!user) { 
@@ -517,8 +516,8 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
         console.log(policy)
         delete req.body.policyItself._id;
         // delete req.body.policyItself.applications;
-        delete req.body.policyItself.__v;
-        delete req.body.policyItself.advancedSecurityOverrides;
+        // delete req.body.policyItself.__v;
+        // delete req.body.policyItself.advancedSecurityOverrides;
 
         console.log(req.body.policyItself);
         var result = await ama.updatePolicy(req.body.policyItself);
