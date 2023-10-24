@@ -513,7 +513,8 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
         policy.applications = req.body.policyItself.applications ?? policy.applications;
         // policy.locationMode = req.body.policyItself.locationMode ?? policy.locationMode;
         policy.advancedSecurityOverrides = req.body.policyItself.advancedSecurityOverrides ?? policy.advancedSecurityOverrides;
-        
+        console.log("Mongodb");
+        console.log(policy)
         var result = await ama.updatePolicy(req.body.policyItself);
         if (result == false) {
             throw "Error in updating policy";
