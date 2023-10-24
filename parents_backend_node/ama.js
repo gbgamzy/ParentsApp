@@ -6,7 +6,7 @@ const axios = require("axios");
 
 const policyPrefix = "enterprises/LC03rv38l8/policies/"
 
-const options = {
+var options = {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
@@ -90,13 +90,20 @@ async function createPolicy(name) {
 }
 
 async function updatePolicy(policy) {
+    var options1 = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            
+        }
+    };
     var requestBody = JSON.stringify({
         "policyItself": policy
     });
-    
+    console.log("Request body")
     console.log(requestBody);
     try {
-        await axios.put(url + 'updatePolicy1/', requestBody, options)
+        await axios.put(url + 'updatePolicy1/', requestBody, options1)
         .then((res) => {
             if (res.status == 200){
                 return true;
@@ -109,7 +116,7 @@ async function updatePolicy(policy) {
         });
     }
     catch (e) {
-        // console.log(e);
+        console.log(e);
         return false;
     }
 }

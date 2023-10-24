@@ -44,6 +44,7 @@ def getEnrollmentToken1(request):
 def updatePolicy1(request):
         
     if(request.method != 'PUT'):
+        print("Invalid method")
         return JsonResponse({'message': 'Invalid request'},
                             status=400)
     print("updating policy..")
