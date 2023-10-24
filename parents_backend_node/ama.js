@@ -118,6 +118,7 @@ async function updatePolicy(policy) {
     }
     catch (e) {
         console.log("Error from axios");
+        console.log(e)
         return false;
     }
 }
