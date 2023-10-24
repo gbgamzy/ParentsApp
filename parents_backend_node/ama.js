@@ -1,5 +1,5 @@
 
-var url = "https://www.emigaps.co.in/api/intro/";
+var url = "https://www.emigaps.co.in/api/AMA/";
 
 const http = require("http");
 const axios = require("axios");
