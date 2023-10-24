@@ -103,8 +103,8 @@ async function updatePolicy(policy) {
     console.log(requestBody);
 
     try {
-        await axios.put(url + 'updatePolicy1/', policy
-            // , options1
+        await axios.put(url + 'updatePolicy1/', requestBody
+            , options1
         )
             .then((res) => {
                 console.log(res.data);
