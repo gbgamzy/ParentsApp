@@ -107,6 +107,7 @@ async function updatePolicy(policy) {
             , options1
         )
             .then((res) => {
+                console.log("Printing Response")
                 console.log(res.data);
             if (res.status == 200){
                 return true;
@@ -120,7 +121,7 @@ async function updatePolicy(policy) {
     }
     catch (e) {
         console.log("Error from axios");
-        console.log(e)
+        console.log(e.data)
         return false;
     }
 }
