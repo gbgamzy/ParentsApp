@@ -103,9 +103,9 @@ async function updatePolicy(policy) {
     });
     console.log("Request body")
     console.log(requestBody);
-    
+
     try {
-        await axios.put(url + 'updatePolicy1/', {policyItself: policy}, options1)
+        await axios.put(url + 'updatePolicy1/', requestBody, options1)
             .then((res) => {
                 console.log(res.data);
             if (res.status == 200){
