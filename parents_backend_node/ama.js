@@ -104,7 +104,8 @@ async function updatePolicy(policy) {
     console.log(requestBody);
     try {
         await axios.put(url + 'updatePolicy1/', requestBody, options1)
-        .then((res) => {
+            .then((res) => {
+                console.log(res.body);
             if (res.status == 200){
                 return true;
             }
@@ -116,7 +117,7 @@ async function updatePolicy(policy) {
         });
     }
     catch (e) {
-        console.log(e);
+        // console.log(e);
         return false;
     }
 }
