@@ -517,7 +517,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
         delete req.body.policyItself._id;
         // delete req.body.policyItself.applications;
         // delete req.body.policyItself.__v;
-        delete req.body.policyItself.advancedSecurityOverrides;
+        // delete req.body.policyItself.advancedSecurityOverrides;
 
         console.log(req.body.policyItself);
         var result = await ama.updatePolicy(req.body.policyItself);
