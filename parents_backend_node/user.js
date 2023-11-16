@@ -302,7 +302,7 @@ router.post('/login', async (req, res) => {
         res.statusCode = 200;
         res.send({
             message: "User created successfully",
-            body: result
+            body: user
         });
     }
     catch (e) {
