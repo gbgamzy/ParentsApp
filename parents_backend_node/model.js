@@ -17,39 +17,41 @@ const ValueModel = mongoose.model('Value', new mongoose.Schema({
     }]
 }));
 
-const UserModel = mongoose.model('User', new mongoose.Schema({
-    firstName: {
-        type: String,
-    },
-    lastName: {
-        type: String,
-    },
-    phone: {
-        type: String,
-        unique: true,
-        partialFilterExpression: {phone: {$exists: true}}
-    },
-    email: {
-        type: String,
-        unique: true,
-        partialFilterExpression: { email: { $exists: true } }
-        // explain what this does
+    const UserModel = mongoose.model('User', new mongoose.Schema({
+        firstName: {
+            type: String,
+        },
+        lastName: {
+            type: String,
+        },
+        phone: {
+            type: String,
+            unique: true,
+            sparse: true,
+            partialFilterExpression: {phone: {$exists: true}}
+        },
+        email: {
+            type: String,
+            unique: true,
+            sparse: true,
+            partialFilterExpression: { email: { $exists: true } }
+            // explain what this does
+            
+        },
+        tokenCount: {
+            type: Number,
+            default: 0
+        },
+        devices: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Device'
+        }],
+        image: String,
+        otp: String,
+        otpExpires: Date,
+        otpTimestamp: Date,
         
-    },
-    tokenCount: {
-        type: Number,
-        default: 0
-    },
-    devices: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Device'
-    }],
-    image: String,
-    otp: String,
-    otpExpires: Date,
-    otpTimestamp: Date,
-    
-}));
+    }));
 
 
 const PolicyModel = mongoose.model('Policy', new mongoose.Schema({
