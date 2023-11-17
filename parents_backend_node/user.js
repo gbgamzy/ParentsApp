@@ -214,7 +214,19 @@ router.put('/:userId', async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.statusCode = 500;
+        if (e.code == 11000) {
+            console.log("User already exists");
+            
+            user = JSON.parse(JSON.stringify(user));
+            
+            res.statusCode = 401;
+            res.send({
+                message: "Email or Phone already linked to existing account"
+                
+            });
+            return;
+        }
+        res.statusCode = 400;
         res.send({
             message: err,
             body:err
