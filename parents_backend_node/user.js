@@ -270,6 +270,7 @@ router.post('/login', async (req, res) => {
         console.log(req.body)
         // check if request body contains either phone or email
         if (req.body.phone == "NA" && req.body.email == "NA") {
+            console.log("Nothing found")
             res.statusCode = 400;
             res.send({
                 message: "Phone or email required",
@@ -279,6 +280,8 @@ router.post('/login', async (req, res) => {
         }
         // check if request body contains both phone and email
         if (req.body.email != "NA") {
+            console.log("Email found");
+            console.log("Email is " + req.body.email);
             var user = new User({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -287,6 +290,8 @@ router.post('/login', async (req, res) => {
             await user.save();
         }
         else if (req.body.phone != "NA") { 
+            console.log("Phone found")
+            console.log("Phone is " + req.body.phone);
             var user = await User.findOne({ phone: req.body.phone });
             if (!user) {
                 throw "User not found";
@@ -307,6 +312,7 @@ router.post('/login', async (req, res) => {
     }
     catch (e) {
         console.log(e.keyValue);
+        console.log(e);
         // if user already exists
         if (e.code == 11000) {
             console.log("User already exists");
