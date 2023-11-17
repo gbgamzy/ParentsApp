@@ -28,15 +28,11 @@ const ValueModel = mongoose.model('Value', new mongoose.Schema({
             type: String,
             unique: true,
             sparse: true,
-            partialFilterExpression: {phone: {$exists: true}}
         },
         email: {
             type: String,
             unique: true,
             sparse: true,
-            partialFilterExpression: { email: { $exists: true } }
-            // explain what this does
-            
         },
         tokenCount: {
             type: Number,
