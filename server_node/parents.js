@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 var events = require('events');
 const cors = require('cors');
+const { listenForEnrollments } = require('./subscription');
 const fileUpload = require('express-fileupload');
 var MongoClient = require('mongodb').MongoClient;
 // var admin = require("firebase-admin");
@@ -17,9 +18,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/parentsdb', {
 }).then((result) => console.log("db connected"))
 .catch(err => console.log(err));
 
-
+const subscriptionName = 'EMIGAPS_SUBSCRIPTION';
 try {
-    listenForMessages(subscriptionName).catch(console.error);
+    listenForEnrollments(subscriptionName).catch(console.error);
 }
 catch (e) {
     console.log(e);
