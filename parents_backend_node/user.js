@@ -10,7 +10,7 @@ const path = require('path');
 
 // import models from model.js
 const { Value, Image, User, Device, Policy } = require('./model');
-
+    
 // get image
 router.get('/image/:image', async (req, res) => { 
     console.log("Getting image");

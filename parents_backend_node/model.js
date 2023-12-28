@@ -30,7 +30,7 @@ const ValueModel = mongoose.model('Value', new mongoose.Schema({
             sparse: true,
         },
         email: {
-            type: String,
+            type: String,   
             unique: true,
             sparse: true,
         },
@@ -102,7 +102,6 @@ const DeviceModel = mongoose.model('Device', new mongoose.Schema({
     enrolledOn: String,
     currentlyEnrolled: Boolean,
     otp: String,
-    qrCode: String,
     image: String,
     apps: [{
         package: {
