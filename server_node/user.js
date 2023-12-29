@@ -418,7 +418,11 @@ router.post('/:userId/token', async (req, res) => {
         var tokensToBeAdded = req.body.tokenCount;
         var userId = req.params.userId;
         var user = await User.updateOne({ _id: req.params.userId }, { $inc: { tokenCount: tokensToBeAdded } });
-        await createEnrollmentToken(userId);
+        var index = 0;
+        for (index = 0; index < tokensToBeAdded; index++){
+            await createEnrollmentToken(userId);
+        }
+        
         res.statusCode = 200;
         res.send({
             message: "Token added successfully, a device will appear in a while",
@@ -587,7 +591,7 @@ async function createEnrollmentToken(userId) {
         
     var res1 = await ama.createPolicy(policy._id);
         if (res1 == false) {
-        throw new Error("Error in creating policy");
+        throw "Error in creating policy";
     }
     policy.name = ama.policyPrefix + policy._id;
         await policy.save();
@@ -616,7 +620,7 @@ async function createEnrollmentToken(userId) {
     device.qrCode = r;
     device.save()
     if(r == null) {
-        throw new Error("Error in generating enrollment token");
+        throw "Error in generating enrollment token";
     }
     else {
         await User.updateOne({ _id: userId }, { $inc: { tokenCount: -1 } });
