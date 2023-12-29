@@ -6,5 +6,5 @@ git reset --hard origin/main
 systemctl daemon-reload
 systemctl restart gunicorn.service
 
-pm2 restart parents
+pm2 restart TeenCare
 
