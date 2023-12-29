@@ -415,8 +415,9 @@ router.get('/:userId/device', async (req, res) => {
 router.post('/:userId/token', async (req, res) => { 
     // update user and add 1 to tokenCount
     try {
+        var tokensToBeAdded = req.body.req.body.tokenCount;
         var userId = req.params.userId;
-        var user = await User.updateOne({ _id: req.params.userId }, { $inc: { tokenCount: 1 } });
+        var user = await User.updateOne({ _id: req.params.userId }, { $inc: { tokenCount: tokensToBeAdded } });
         await createEnrollmentToken(userId);
         res.statusCode = 200;
         res.send({
