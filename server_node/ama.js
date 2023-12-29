@@ -1,6 +1,6 @@
 
 // var url = "https://www.emigaps.co.in/api/intro/";
-var url = "http://127.0.0.1:8003/AMA/";
+var url = "http://0.0.0.0:8003/AMA/";
 
 const http = require("http");
 const axios = require("axios");
