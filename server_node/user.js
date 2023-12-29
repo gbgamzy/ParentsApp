@@ -489,7 +489,7 @@ router.get('/:userId/enrollmentToken', async (req, res) => {
     }
 });
 
-// put request taking in userId and deviceId as params to update device
+// UPDATE DEVICE put request taking in userId and deviceId as params to update device
 router.put('/:userId/device/:deviceId', async (req, res) => {
     try {
         var device = await Device.findById(req.params.deviceId);
@@ -511,7 +511,7 @@ router.put('/:userId/device/:deviceId', async (req, res) => {
     }
 });
 
-// put request taking in userId, deviceId and policyId as params to update policy
+// UPDATE POLICY put request taking in userId, deviceId and policyId as params to update policy
 router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => { 
     try {
         
