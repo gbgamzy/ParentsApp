@@ -1,6 +1,6 @@
 
 // var url = "https://www.emigaps.co.in/api/intro/";
-var url = "http://www.docnbook.in/ama/";
+var url = "http://www.docnbook.in/ama/AMA/";
 
 const http = require("http");
 const axios = require("axios");
