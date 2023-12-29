@@ -562,6 +562,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 
 
 async function createEnrollmentToken(userId) {
+    console.log("Creating enrollment tokens");
     var flag = 0;
     var policyId = "", deviceId = "";
     try {
