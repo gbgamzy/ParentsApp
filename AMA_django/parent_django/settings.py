@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-f6^(ia%6-&lh5txv$#=7k#vt850tkmzq07(wv(m^6f1_z-n(3i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['docnbook.in', 'www.docnbook.in', '*']
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
