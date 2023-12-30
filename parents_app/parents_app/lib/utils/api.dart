@@ -8,7 +8,6 @@ class API {
   API._();
 
   static final API _instance = API._();
-
   factory API() => _instance;
   String BASE_URL = "http://www.docnbook.in/parents/user";
 
