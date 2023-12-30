@@ -1,14 +1,12 @@
-var http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
-var events = require('events');
 const cors = require('cors');
-const { listenForEnrollments } = require('./subscription');
+const { listenForEnrollments } = require('./utils/subscription');
 const fileUpload = require('express-fileupload');
 var MongoClient = require('mongodb').MongoClient;
+const userRoute = require('./user');
+const homeRoute=require('./home');
 // var admin = require("firebase-admin");
-
-
 
 
 mongoose.set('strictQuery', false);
@@ -37,34 +35,13 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-
-// ******************************
-
-//const postRoute=require('./routes/School1');
-
-const userRoute=require('./user');
-
-
-// var serviceAccount = require("./key.json");
-
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: "https://doc-n-book-default-rtdb.asia-southeast1.firebasedatabase.app"
-// });
-// var db = admin.database();
-
-
 app.use('/user', userRoute);
+app.use('/home', homeRoute);
 
 
 app.listen(3005, () => {
     console.log('Server started on http://localhost:3005');
 });
-
-// export admin
-// module.exports = {
-//     db: db
-// };
 
 
 

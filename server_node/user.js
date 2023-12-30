@@ -1,11 +1,11 @@
 const express=require('express');
 const router = express.Router();
-const ama = require('./ama');
+const ama = require('./utils/ama');
 
 
 
 // import models from model.js
-const { Value, Image, User, Device, Policy } = require('./model');
+const { Value, Image, User, Device, Policy } = require('./utils/model');
     
 // get image
 router.get('/image/:image', async (req, res) => { 

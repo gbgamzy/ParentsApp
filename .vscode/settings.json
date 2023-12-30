@@ -2,7 +2,7 @@
 "java.configuration.updateBuildConfiguration": "automatic",
 "files.exclude": {
     "**/.git": true,
-    "**/parents_app": true,
+    // "**/parents_app": true,
     "**/TeenCareJr.": true,
     "**/brave-drummer-350514-8c7aac941fa6.json": true,
     "**/node_modules": true,
