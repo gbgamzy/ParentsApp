@@ -27,7 +27,7 @@ class API {
   dynamic handleResponse(dynamic res) {
     try {
       if (res.statusCode != 500) {
-        print(res.body);
+
         var jsonResponse = jsonDecode(res.body);
         // print(jsonResponse);
         jsonResponse['statusCode'] = res.statusCode;
