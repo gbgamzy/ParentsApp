@@ -14,7 +14,6 @@ class API {
 
   dynamic getHeader([String? username, String password = "password"]) async {
     String credentials = "";
-
     credentials = "$username:$password";
     String encoded = base64.encode(utf8.encode(credentials));
 
