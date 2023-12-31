@@ -19,8 +19,11 @@ router.get('/privacy_policy', async (req, res) => {
             });
         }
     });
-
 });
+
+
+
+
 
 
 

@@ -46,6 +46,10 @@ const UserModel = mongoose.model('User', new mongoose.Schema({
     otp: String,
     otpExpires: Date,
     otpTimestamp: Date,
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order'
+    }]
     
 }));
 
@@ -99,11 +103,19 @@ const DeviceModel = mongoose.model('Device', new mongoose.Schema({
         ref: 'Policy',
         unique: true
     },
-    createdOn: String,
-    enrolledOn: String,
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order'
+    }],
+    createdOn: Date,
+    enrolledOn: Date,
     currentlyEnrolled: Boolean,
     otp: String,
     image: String,
+    // TODO Renewal Date Added,
+    devicesStatus: String,
+    deviceDescription: String,
+    renewalDate: Date,
     apps: [{
         package: {
             type: String,
@@ -115,6 +127,53 @@ const DeviceModel = mongoose.model('Device', new mongoose.Schema({
 }));
 
 
+const OfferModel = mongoose.model('Offer', new mongoose.Schema({
+    title: String,
+    description: String,
+    tokenCount: {
+        type: Number,
+        immutable: true
+    },
+    tenure: {
+        type: String,
+        immutable: true
+    },
+    originalPrice: {
+        type: Number,
+        immutable: true
+    },
+    discountedPrice: Number,
+    image: String,
+    benefits: [String],
+    validFrom: Date,
+    validUntil: Date,
+    isActive: Boolean
+}));
+
+
+
+
+const OrderModel = mongoose.model('Order', new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    orderPlacingDate: Date,
+    orderExpiryDate: Date,
+    paymentCompleteDate: Date,
+    orderEndingDate: Date,
+    offer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Offer',
+    },
+    discountedPrice: Number,
+    // 
+    orderStatus: String,
+    // to show details of what is the status especaiily in refund
+    orderDescription: String,
+    paymentStatus: String,
+    orderType: String, 
+}));
 
 
 
@@ -144,5 +203,6 @@ module.exports = {
     Policy: PolicyModel,
     Value: ValueModel,
     Image: ImageModel,
+    Offer: OfferModel
 }   
 
