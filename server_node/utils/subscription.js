@@ -19,7 +19,7 @@ const {PubSub} = require('@google-cloud/pubsub');
 // Creates a client; cache this for further use
 const pubSubClient = new PubSub({
     projectId: "emisafe",
-    keyFilename: "./server_node/utils/key.json"
+    keyFilename: "./utils/key.json"
 });
 // an async function to create a topic
 
