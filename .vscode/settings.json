@@ -7,6 +7,7 @@
     "**/TeenCareJr.": true,
     "**/brave-drummer-350514-8c7aac941fa6.json": true,
     "**/node_modules": true,
+    "**/*package*json": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
@@ -45,7 +46,10 @@
 
 "editor.defaultFormatter": "esbenp.prettier-vscode",
 "editor.formatOnSave": true,
-"prettier.requireConfig": true
+"prettier.requireConfig": true,
+"[javascript]": {
+    "editor.defaultFormatter": "svipas.prettier-plus"
+}
 
 
 }

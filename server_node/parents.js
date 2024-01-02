@@ -4,8 +4,11 @@ const cors = require('cors');
 const { listenForEnrollments } = require('./utils/subscription');
 const fileUpload = require('express-fileupload');
 var MongoClient = require('mongodb').MongoClient;
+
 const userRoute = require('./user');
 const homeRoute=require('./home');
+const adminRoute=require('./admin');
+const { admin } = require('googleapis/build/src/apis/admin');
 // var admin = require("firebase-admin");
 
 
@@ -33,11 +36,9 @@ app.use(cors());
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
 
-
-
 app.use('/user', userRoute);
 app.use('/home', homeRoute);
-
+app.use('/admin', adminRoute);
 
 app.listen(3005, () => {
     console.log('Server started on http://localhost:3005');
