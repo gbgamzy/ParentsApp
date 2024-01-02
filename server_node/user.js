@@ -675,6 +675,6 @@ async function createEnrollmentToken(userId, orderId) {
 }
 
 module.exports = {
-	router: router,
+	userRoute: router,
 	createEnrollmentToken: createEnrollmentToken,
 };
