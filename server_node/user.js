@@ -538,6 +538,18 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 	}
 });
 
+// Fetch all offers
+router.get('/offers', async (req, res) => {
+	try {
+		const allOffers = await Offer.find();
+		res.json(allOffers);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'Internal Server Error' });
+	}
+});
+
+
 // create an order
 router.post('/:userId/offers/:offerId', async (req, res) => {
 	try {
