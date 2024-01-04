@@ -174,6 +174,9 @@ const OfferModel = mongoose.model(
 			type: Number,
 			required: true,
 		},
+		gst: {
+			type: Number
+		},
 		image: String,
 		benefits: [String],
 		validUntil: {

@@ -542,13 +542,15 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 router.get('/offers', async (req, res) => {
 	try {
 		const allOffers = await Offer.find();
-		res.json(allOffers);
+		res.status(200).send({
+			message: 'Offers received',
+			body: allOffers,
+		});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'Internal Server Error' });
 	}
 });
-
 
 // create an order
 router.post('/:userId/offers/:offerId', async (req, res) => {
