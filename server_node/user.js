@@ -589,7 +589,12 @@ router.post('/:userId/offers/:offerId', async (req, res) => {
 		user.orders.push(savedOrder._id);
 		await user.save();
 
-		res.status(201).json(savedOrder);
+		res.status(201).send({
+			message: 'Order placed',
+			body: savedOrder,
+		});
+
+		
 	} catch (e) {
 		res.statusCode = 500;
 		res.send({
