@@ -1,8 +1,8 @@
 {
 "java.configuration.updateBuildConfiguration": "automatic",
 "files.exclude": {
+    "**/parents_app": true,
     "**/.git": true,
-    // "**/parents_app": true,
     "**/AMA_django": true,
     "**/TeenCareJr.": true,
     "**/brave-drummer-350514-8c7aac941fa6.json": true,
@@ -15,11 +15,11 @@
     "**/Thumbs.db": true,
     "**/android": true,
     "**/ios": true,
-    "**/build": true,
+    // "**/build": true,
     "**/linux": true,
     "**/macos": true,
     "**/test": true,
-    "**/web": true,
+    // "**/web": true,
     "**/windows": true,
     "**/.dart_tool": true,
     "**/.idea": true,
