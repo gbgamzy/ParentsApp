@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "moment-timezone": "^0.5.44"
+    "moment-timezone": "^0.5.44",
+    "razorpay": "^0.0.0"
   }
 }
