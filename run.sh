@@ -9,6 +9,7 @@ systemctl restart gunicorn.service
 cd TeenCareWeb
 bash run.sh
 
+
 cd ..
 cd server_node
 npm install
