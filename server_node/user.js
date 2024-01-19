@@ -13,6 +13,9 @@ const {
 	Order,
 } = require('./utils/model');
 
+// import functions from sms.js
+const { SMS } = require('./utils/sms');
+
 const options = {
 	timeZone: 'Asia/Kolkata', // Indian Standard Time (IST)
 	year: 'numeric',
@@ -33,7 +36,7 @@ router.get('/image/:image', async (req, res) => {
 		res.send(image.image);
 	} catch (e) {
 		console.log(e);
-		res.statusCode = 400;
+		res.statusCode = 500;
 		res.send({
 			message: 'Internal server error',
 			body: e,
@@ -45,7 +48,7 @@ router.get('/image/:image', async (req, res) => {
 router.post('/image/:image', async (req, res) => {
 	console.log('Uploading image');
 	if (!req.files.file) {
-		return res.status(400).send('No image data found');
+		return res.status(500).send('No image data found');
 	}
 
 	try {
@@ -83,7 +86,7 @@ router.post('/image/:image', async (req, res) => {
 		});
 	} catch (e) {
 		console.log(e);
-		res.statusCode = 400;
+		res.statusCode = 500;
 		res.send({
 			message: 'Internal server error',
 			body: e,
@@ -94,40 +97,34 @@ router.post('/image/:image', async (req, res) => {
 // get otp
 router.get('/:phone/otp', async (req, res) => {
 	try {
-		// generate 6 digit random otp
-		// var otp = Math.floor(100000 + Math.random() * 900000);
 		console.log('Getting OTP');
-		console.log(req.params.phone);
-		var otp = '123456';
-		// check if user with this phone number exists
-		var user = await User.findOne({ phone: req.params.phone });
-		if (!user) {
-			var user = new User({
-				phone: req.params.phone,
-				otp: otp,
-				otpExpires: Date.now() + 300000,
-				otpTimestamp: Date.now(),
+		// if phone is not 10 digits
+		if (req.params.phone.length != 10) {
+			res.statusCode = 500;
+			res.send({
+				message: 'Phone number is not valid',
+				body: null,
 			});
-		} else {
-			if (Date.now() - user.otpTimestamp > 90000) {
-				user.otp = otp;
-				user.otpExpires = Date.now() + 300000;
-				user.otpTimestamp = Date.now();
-			} else {
-				res.statusCode = 400;
-				res.send({
-					message: 'OTP already sent',
-					body: null,
-				});
-				return;
-			}
+			return;
 		}
-		await user.save();
 
-		res.statusCode = 200;
-		res.send({
-			message: 'OTP sent to ' + req.params.phone,
+		// check if user with this phone number exists
+		User.findOne({ phone: req.params.phone }).then(async (user) => {
+			if (!user) {
+				var user = new User({
+					phone: req.params.phone,
+				});
+				await user.save();
+			} 
 		});
+		SMS.sendSms(req.params.phone).then((result) => {
+			res.statusCode = result.statusCode;
+			res.send({
+				message: result.message
+			});
+		});
+
+		
 	} catch (e) {
 		console.log(e);
 		res.statusCode = 500;
@@ -142,33 +139,17 @@ router.get('/:phone/otp', async (req, res) => {
 router.post('/:phone/otp', async (req, res) => {
 	try {
 		console.log('Verifying OTP');
-		console.log(req.body);
+		
 		var user = await User.findOne({ phone: req.params.phone });
 		if (!user) {
 			throw 'User not found';
 		}
-		if (user.otp == req.body.otp) {
-			if (Date.now() - user.otpExpires > 300000) {
-				res.statusCode = 400;
-				res.send({
-					message: 'OTP expired',
-					body: null,
-				});
-				return;
-			}
-			if (!user.firstName) res.statusCode = 201;
-			else res.statusCode = 200;
+		SMS.verifyOtp(req.params.phone, req.body.otp).then((result) => {
+			res.statusCode = result.statusCode;
 			res.send({
-				message: 'OTP verified',
-				body: user,
+				message: result.message
 			});
-		} else {
-			res.statusCode = 400;
-			res.send({
-				message: 'Wrong OTP',
-				body: null,
-			});
-		}
+		});
 	} catch (e) {
 		console.log(e);
 		res.statusCode = 500;
@@ -211,13 +192,13 @@ router.put('/:userId', async (req, res) => {
 
 			user = JSON.parse(JSON.stringify(user));
 
-			res.statusCode = 401;
+			res.statusCode = 500;
 			res.send({
 				message: 'Email or Phone already linked to existing account',
 			});
 			return;
 		}
-		res.statusCode = 400;
+		res.statusCode = 500;
 		res.send({
 			message: err,
 			body: err,
@@ -271,7 +252,7 @@ router.post('/login', async (req, res) => {
 		// check if request body contains either phone or email
 		if (req.body.phone == 'NA' && req.body.email == 'NA') {
 			console.log('Nothing found');
-			res.statusCode = 400;
+			res.statusCode = 500;
 			res.send({
 				message: 'Phone or email required',
 				body: null,
@@ -334,7 +315,7 @@ router.post('/login', async (req, res) => {
 			return;
 		}
 		console.log(e);
-		res.statusCode = 400;
+		res.statusCode = 500;
 		res.send({
 			message: 'Internal server error',
 			body: e,
@@ -354,7 +335,7 @@ router.delete('/:userId', async (req, res) => {
 		});
 	} catch (e) {
 		console.log(e);
-		res.statusCode = 400;
+		res.statusCode = 500;
 		res.send({
 			message: 'Internal server error',
 			body: e,
@@ -383,7 +364,7 @@ router.get('/:userId/device', async (req, res) => {
 		});
 	} catch (e) {
 		console.log(e);
-		res.statusCode = 400;
+		res.statusCode = 500;
 		res.send({
 			message: 'Internal server error',
 			body: e,
@@ -412,7 +393,7 @@ router.get('/:userId/device/:deviceId', async (req, res) => {
 		});
 	} catch (e) {
 		console.log(e);
-		res.statusCode = 400;
+		res.statusCode = 500;
 		res.send({
 			message: 'Internal server error',
 			body: e,
@@ -471,7 +452,7 @@ router.put('/:userId/device/:deviceId', async (req, res) => {
 			body: device,
 		});
 	} catch (e) {
-		res.statusCode = 400;
+		res.statusCode = 500;
 		res.send({
 			message: 'Internal server error',
 			body: e,
@@ -530,7 +511,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		});
 	} catch (e) {
 		console.log(e);
-		res.statusCode = 400;
+		res.statusCode = 500;
 		res.send({
 			message: 'Internal server error',
 			body: e,
@@ -593,8 +574,6 @@ router.post('/:userId/offers/:offerId', async (req, res) => {
 			message: 'Order placed',
 			body: savedOrder,
 		});
-
-		
 	} catch (e) {
 		res.statusCode = 500;
 		res.send({
