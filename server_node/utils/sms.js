@@ -48,7 +48,7 @@ async function sendOtp(phone) {
 			phone +
 			'/' +
 			otp +
-			'/dnb',
+			'/',
 		headers: {},
 	};
 	request(options, function (error, response) {
@@ -63,7 +63,8 @@ async function sendOtp(phone) {
 		console.log(response.body);
 	});
 	// record phone and otp into a log file
-    otpCount++;
+	otpCount++;
+	updateOtpCount();
 	logOtp(phone);
 	return {
 		statusCode: 200,
