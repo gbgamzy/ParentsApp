@@ -1,6 +1,7 @@
 *node_modules*
 /server_node/static/values.json
-*run.sh
+**/*.sh
 
 
 
+*deploy.sh*

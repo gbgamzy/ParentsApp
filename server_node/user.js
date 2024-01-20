@@ -14,7 +14,7 @@ const {
 } = require('./utils/model');
 
 // import functions from sms.js
-const { SMS } = require('./utils/sms');
+const SMS = require('./utils/sms');
 
 const options = {
 	timeZone: 'Asia/Kolkata', // Indian Standard Time (IST)
@@ -26,6 +26,8 @@ const options = {
 	second: '2-digit',
 	hour12: false,
 };
+
+
 
 // get image
 router.get('/image/:image', async (req, res) => {
@@ -117,7 +119,7 @@ router.get('/:phone/otp', async (req, res) => {
 				await user.save();
 			} 
 		});
-		SMS.sendSms(req.params.phone).then((result) => {
+		SMS.sendOtp(req.params.phone).then((result) => {
 			res.statusCode = result.statusCode;
 			res.send({
 				message: result.message
