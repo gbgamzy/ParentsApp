@@ -48,7 +48,7 @@ async function sendOtp(phone) {
 			phone +
 			'/' +
 			otp +
-			'/',
+			'/TeenCare',
 		headers: {},
 	};
 	request(options, function (error, response) {
