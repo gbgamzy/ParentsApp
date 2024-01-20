@@ -2,10 +2,10 @@
 "java.configuration.updateBuildConfiguration": "automatic",
 "files.exclude": {
     "**/AMA_django": true,
-    // "**/server_node": true,
+    "**/server_node": true,
     // "**/TeenCareJr.": true,
-    "**/TeenCareWeb": true,
-    // "**/parentsApp": true,
+    // "**/TeenCareWeb": true,
+    "**/parentsApp": true,
 
     // "**/.git*": true,
     // "**/.gitignore": true,

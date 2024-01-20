@@ -15,6 +15,13 @@
             "program": "${workspaceFolder}/server_node/parents.js",
             "cwd": "${workspaceFolder}/server_node",
             "restart": true,
+        },
+        {
+            "type": "dart",
+            "request": "launch",
+            "name": "TeenCareWeb",
+            "program": "${workspaceFolder}/TeenCareWeb",
+            "cwd": "${workspaceFolder}/TeenCareWeb",
         }
     ]
 }
