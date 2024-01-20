@@ -1,3 +1,6 @@
 [submodule "TeenCareWeb"]
 	path = TeenCareWeb
 	url = git@github.com:gbgamzy/TeenCareWeb.git
+[submodule "parentsApp"]
+	path = parentsApp
+	url = git@github.com:gapsco/ParentsApp.git
