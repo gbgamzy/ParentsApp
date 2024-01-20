@@ -1,7 +1,4 @@
 *node_modules*
 /server_node/static/values.json
 **/*.sh
-
-
-
 *deploy.sh*
