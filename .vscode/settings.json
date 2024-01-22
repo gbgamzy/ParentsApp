@@ -5,7 +5,7 @@
     // "**/server_node": true,
     // "**/TeenCareJr.": true,
     // "**/TeenCareWeb": true,
-    "**/parentsApp": true,
+    // "**/parentsApp": true,
 
     // "**/.git*": true,
     // "**/.gitignore": true,
@@ -23,7 +23,7 @@
     "**/Thumbs.db": true,
     "**/android": true,
     "**/ios": true,
-    "**/build": true,
+    // "**/build": true,
     "**/linux": true,
     "**/macos": true,
     "**/test": true,
