@@ -31,10 +31,10 @@ catch (e) {
 // Use Express middleware for handling JSON and URL-encoded form data
 const app=express();
 
+// app.use(cors({
+//     origin: '*'
+// }));
 app.use(express.json());
-app.use(cors({
-    origin: '*'
-}));
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
 
