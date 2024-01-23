@@ -149,7 +149,8 @@ router.post('/:phone/otp', async (req, res) => {
 		SMS.verifyOtp(req.params.phone, req.body.otp).then((result) => {
 			res.statusCode = result.statusCode;
 			res.send({
-				message: result.message
+				message: result.message,
+				body: user
 			});
 		});
 	} catch (e) {
