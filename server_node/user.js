@@ -149,7 +149,7 @@ router.post('/:phone/otp', async (req, res) => {
 		SMS.verifyOtp(req.params.phone, req.body.otp).then((result) => {
 			res.statusCode = result.statusCode;
 			res.send({
-				message: "Nono",
+				message: result.message,
 				body: user
 			});
 		});
