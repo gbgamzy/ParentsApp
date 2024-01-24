@@ -1,16 +1,11 @@
 [submodule "TeenCareWeb"]
 	path = TeenCareWeb
 	url = git@github.com:gbgamzy/TeenCareWeb.git
+
 [submodule "parentsApp"]
 	path = parentsApp
 	url = git@github.com:gapsco/ParentsApp.git
-# [submodule "JrTeenCare"]
-# 	path = 'JrTeenCare'
-# 	url = git@github.com:gbgamzy/teencarejr.git
 
-[submodule "server_node/JrTeenCare"]
-	path = server_node/JrTeenCare
-	url = git@github.com:gbgamzy/teencarejr.git
 [submodule "JrTeenCare"]
 	path = JrTeenCare
 	url = git@github.com:gbgamzy/teencarejr.git
