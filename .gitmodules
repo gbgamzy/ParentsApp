@@ -11,3 +11,6 @@
 [submodule "server_node/JrTeenCare"]
 	path = server_node/JrTeenCare
 	url = git@github.com:gbgamzy/teencarejr.git
+[submodule "JrTeenCare"]
+	path = JrTeenCare
+	url = git@github.com:gbgamzy/teencarejr.git
