@@ -2,6 +2,16 @@ const express = require('express');
 const fs = require('fs');
 const router = express.Router();
 
+
+// const KEY_ID = 'rzp_test_VboEg3JlSSSWFW',
+// 	KEY_SECRET = '1CYTNm023YmuB0WnBlDpKnGJ';
+
+
+// get keys from rzp-key.json
+const keys = JSON.parse(fs.readFileSync('./keys/rzp-key.json', 'utf-8'));
+const KEY_ID = keys.KEY_ID;
+const KEY_SECRET = keys.KEY_SECRET;
+
 const {
 	Value,
 	Image,
@@ -121,5 +131,9 @@ router.post('/payment', async (req, res) => {
 		res.status(500).json({ error: 'Internal Server Error' });
 	}
 });
+
+
+
+
 
 module.exports = router;

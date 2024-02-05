@@ -2,3 +2,5 @@
 /server_node/static/values.json
 **/*.sh
 *deploy.sh*
+**/*.log
+

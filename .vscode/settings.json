@@ -3,9 +3,9 @@
 "files.exclude": {
     "**/AMA_django": true,
     // "**/server_node": true,
-    // "**/TeenCareJr.": true,
-    // "**/TeenCareWeb": true,
-    // "**/parentsApp": true,
+    "**/JrTeenCare": true,
+    "**/TeenCareWeb": true,
+    "**/parentsApp": true,
 
     // "**/.git*": true,
     // "**/.gitignore": true,
@@ -15,7 +15,7 @@
     "**/node_modules": true,
     // "**/*.sh": true,
     "**/jsconfig.json": true,
-    "**/package-lock.json": true,
+    "**/package*.json": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,

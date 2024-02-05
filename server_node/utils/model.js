@@ -198,6 +198,10 @@ const OrderModel = mongoose.model(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
 		},
+		orderId: {
+			type: String,
+			required: true,
+		},
 		orderPlacingDate: Date,
 		orderExpiryDate: Date,
 		paymentCompleteDate: Date,

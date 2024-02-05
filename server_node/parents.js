@@ -5,7 +5,8 @@ const { listenForEnrollments } = require('./utils/subscription');
 const fileUpload = require('express-fileupload');
 var MongoClient = require('mongodb').MongoClient;
 
-const {userRoute} = require('./user');
+const { userRoute } = require('./user');
+const { rzpRoute} = require('./utils/rzp');
 const homeRoute=require('./home');
 const adminRoute=require('./admin');
 const { admin } = require('googleapis/build/src/apis/admin');
@@ -41,6 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/user', userRoute);
 app.use('/home', homeRoute);
 app.use('/admin', adminRoute);
+app.use('/rzp', rzpRoute);
 
 app.listen(3005, () => {
     console.log('Server started on http://localhost:3005');

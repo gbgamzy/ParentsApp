@@ -13,6 +13,9 @@ const {
 	Order,
 } = require('./utils/model');
 
+// import functions from rzp.js
+const { createOrder } = require('./utils/rzp');
+
 // import functions from sms.js
 const SMS = require('./utils/sms');
 
@@ -538,6 +541,7 @@ router.get('/offers', async (req, res) => {
 
 // create an order
 router.post('/:userId/offers/:offerId', async (req, res) => {
+	var orderId;
 	try {
 		const offer = await Offer.findById(req.params.offerId);
 		if (!offer) {
@@ -550,16 +554,22 @@ router.post('/:userId/offers/:offerId', async (req, res) => {
 		}
 
 		const currentDateAndTime = new Date();
-		const formattedDateAndTime = new Intl.DateTimeFormat(
-			'en-IN',
-			options
-		).format(currentDateAndTime);
+		// const formattedDateAndTime = new Intl.DateTimeFormat(
+		// 	'en-IN',
+		// 	options
+		// ).format(currentDateAndTime);
 		const fifteenMinutesLater = new Date(currentDateAndTime);
 		fifteenMinutesLater.setMinutes(currentDateAndTime.getMinutes() + 15);
-
+		var result = await createOrder(offer.discountedPrice * 100, 'INR', offer.name);
+		if(result.statusCode != 200){
+			throw 'Error in creating order';
+		}
+		orderId = result.body;
+		
 		var order = new Order({
 			user: req.params.userId,
-			orderPlacingDate: formattedDateAndTime,
+			orderId: result.body,
+			orderPlacingDate: currentDateAndTime,
 			orderExpiryDate: fifteenMinutesLater,
 			offer: offer,
 			discountedPrice: offer.discountedPrice,
