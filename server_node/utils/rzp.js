@@ -69,7 +69,24 @@ router.post('/webhook', (req, res) => {
 
 function handleWebhookEvent(event) {
     console.log('Webhook event received:', event);
-    console.log(event.payload)
+	console.log(event.payload)
+	switch (event.event) {
+		case 'order.paid':
+			console.log('Order paid');
+			break;
+		case 'payment.authorized':
+			console.log('Payment authorized');
+			break;
+		case 'payment.captured':
+			console.log('Payment captured');
+			break;
+		case 'payment.failed':
+			console.log('Payment failed');
+			break;
+		default:
+			console.log('Unhandled event:', event.event);
+	}
+
 }
 
 // export the function

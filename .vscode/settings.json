@@ -5,7 +5,7 @@
     // "**/server_node": true,
     "**/JrTeenCare": true,
     "**/TeenCareWeb": true,
-    "**/parentsApp": true,
+    // "**/parentsApp": true,
 
     // "**/.git*": true,
     // "**/.gitignore": true,

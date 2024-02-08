@@ -596,6 +596,29 @@ router.post('/:userId/offers/:offerId', async (req, res) => {
 	}
 });
 
+// get orders of a user from its userId in params
+router.get('/:userId/orders', async (req, res) => {
+	try {
+		var user = await User.findById(req.params.userId).populate({
+			path: 'orders',
+			model: 'Order',
+		});
+		res.status(200).send({
+			message: 'Orders received',
+			body: user,
+		});
+	} catch (e) {
+		console.log(e);
+		res.statusCode = 500;
+		res.send({
+			message: 'Internal server error',
+			body: e,
+		});
+	}
+});
+
+
+
 async function createEnrollmentToken(userId, orderId) {
 	console.log('Creating enrollment tokens');
 	var flag = 0;
