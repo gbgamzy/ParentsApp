@@ -13,6 +13,8 @@ const { admin } = require('googleapis/build/src/apis/admin');
 // var admin = require("firebase-admin");
 
 
+const live_mode = true;
+
 mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://127.0.0.1:27017/parentsdb', { 
     useNewUrlParser: true,
@@ -50,4 +52,7 @@ app.listen(3005, () => {
 
 
 
+module.exports = {
+    live_mode: live_mode,
+};
 
