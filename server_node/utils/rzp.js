@@ -4,7 +4,8 @@ const fs = require('fs');
 const router = express.Router();
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
-const {live_mode} = require('../parents');
+
+const live_mode = true;
 
 const keys = JSON.parse(fs.readFileSync('./keys/rzp-key.json', 'utf-8'));
 var KEY_ID, KEY_SECRET;
@@ -83,6 +84,7 @@ function handleWebhookEvent(event) {
 			break;
 		case 'payment.authorized':
 			console.log('Payment authorized');
+
 			break;
 		case 'payment.captured':
 			console.log('Payment captured');
