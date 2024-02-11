@@ -619,7 +619,7 @@ router.get('/:userId/orders', async (req, res) => {
 
 
 
-async function createEnrollmentToken(userId, orderId) {
+async function createEnrollmentToken(userId, orderId, paymentId) {
 	console.log('Creating enrollment tokens');
 	var flag = 0;
 	var policyId = '',
