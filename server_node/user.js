@@ -632,7 +632,7 @@ async function createEnrollmentToken(payload) {
 		const currentDateAndTime = new Date();
 
 		var order = await Order.findOne({ orderId: orderId });
-		if (order.paymentId.toString.length > 5) {
+		if (order.paymentId.toString().length > 5) {
 			throw 'Order already paid';
 		}
 		order.paymentMethod = paymentMethod;
