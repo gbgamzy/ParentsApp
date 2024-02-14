@@ -8,7 +8,8 @@ from AMA.api import AMA
 def getEnrollmentToken1(request):
 
     if(request.method != 'POST'):
-        
+        print("Invalid method")
+        print(request.method)
         return JsonResponse({'message': 'Invalid request'},
                             status=400)
     
