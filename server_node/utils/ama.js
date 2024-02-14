@@ -44,7 +44,7 @@ async function getEnrollmentToken(name) {
         var r = null;
         await axios.post(url + 'getEnrollmentToken1/', requestBody, options)
             .then((res) => {
-                console.log(res.data.body['token']['qrCode']);
+                
             if (res.status == 200){
                 r = res.data.body['token']['qrCode'];
             }
