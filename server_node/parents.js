@@ -6,7 +6,7 @@ const fileUpload = require('express-fileupload');
 var MongoClient = require('mongodb').MongoClient;
 
 const { userRoute } = require('./user');
-const { rzpRoute} = require('./utils/rzp');
+const { rzpRoute} = require('./rzp');
 const homeRoute=require('./home');
 const adminRoute=require('./admin');
 const { admin } = require('googleapis/build/src/apis/admin');
