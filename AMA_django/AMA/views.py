@@ -7,7 +7,7 @@ import logging
 
 @csrf_exempt
 def getEnrollmentToken1(request):
-
+    logging.debug(request.method)
     if(request.method != 'POST'):
 
         logging.debug("Invalid method")
@@ -16,8 +16,10 @@ def getEnrollmentToken1(request):
                             status=400)
     
     print("getting enrollment token..")
+    logging.debug("getting enrollment token..")
     data = request.body.decode('utf-8')
     data = json.loads(data)
+    logging.debug(data)
     try:
         policy = data['policyItself']
         # print(policy)
