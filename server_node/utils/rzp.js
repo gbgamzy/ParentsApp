@@ -4,7 +4,7 @@ const fs = require('fs');
 const router = express.Router();
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
-const { createEnrollmentToken } = require('../user');
+const { createEnrollmentToken } = require('./user');
 
 
 const live_mode = false;
