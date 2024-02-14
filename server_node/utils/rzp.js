@@ -4,8 +4,9 @@ const fs = require('fs');
 const router = express.Router();
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
+const { createEnrollmentToken } = require('../user');
 
-const {createEnrollmentToken} = require('./user');
+
 const live_mode = false;
 
 const keys = JSON.parse(fs.readFileSync('./keys/rzp-key.json', 'utf-8'));
