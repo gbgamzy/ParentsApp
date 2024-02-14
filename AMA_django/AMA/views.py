@@ -12,8 +12,11 @@ def getEnrollmentToken1(request):
 
         logging.debug("Invalid method")
         logging.debug(request.method)
-        return JsonResponse({'message': 'Invalid request'},
-                            status=400)
+        return JsonResponse({
+            'message': 'Invalid request',
+            'method': str(request.method)
+        },
+        status=400)
     
     print("getting enrollment token..")
     logging.debug("getting enrollment token..")
