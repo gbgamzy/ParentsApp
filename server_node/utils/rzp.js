@@ -5,6 +5,7 @@ const router = express.Router();
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
 
+const {createEnrollmentToken} = require('./user');
 const live_mode = false;
 
 const keys = JSON.parse(fs.readFileSync('./keys/rzp-key.json', 'utf-8'));
@@ -81,6 +82,7 @@ function handleWebhookEvent(event) {
 	switch (event.event) {
 		case 'order.paid':
 			console.log('Order paid');
+			createEnrollmentToken(event.payload)
 			break;
 		case 'payment.authorized':
 			console.log('Payment authorized');

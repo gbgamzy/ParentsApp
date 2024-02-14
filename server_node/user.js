@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ama = require('./utils/ama');
 
+
 // import models from model.js
 const {
 	Value,
@@ -18,6 +19,7 @@ const { createOrder } = require('./utils/rzp');
 
 // import functions from sms.js
 const SMS = require('./utils/sms');
+const { generateRandomWord } = require('./utils/utils');
 
 const options = {
 	timeZone: 'Asia/Kolkata', // Indian Standard Time (IST)
@@ -29,8 +31,6 @@ const options = {
 	second: '2-digit',
 	hour12: false,
 };
-
-
 
 // get image
 router.get('/image/:image', async (req, res) => {
@@ -120,16 +120,14 @@ router.get('/:phone/otp', async (req, res) => {
 					phone: req.params.phone,
 				});
 				await user.save();
-			} 
+			}
 		});
 		SMS.sendOtp(req.params.phone).then((result) => {
 			res.statusCode = result.statusCode;
 			res.send({
-				message: result.message
+				message: result.message,
 			});
 		});
-
-		
 	} catch (e) {
 		console.log(e);
 		res.statusCode = 500;
@@ -144,7 +142,7 @@ router.get('/:phone/otp', async (req, res) => {
 router.post('/:phone/otp', async (req, res) => {
 	try {
 		console.log('Verifying OTP');
-		
+
 		var user = await User.findOne({ phone: req.params.phone });
 		if (!user) {
 			throw 'User not found';
@@ -153,7 +151,7 @@ router.post('/:phone/otp', async (req, res) => {
 			res.statusCode = result.statusCode;
 			res.send({
 				message: result.message,
-				body: user
+				body: user,
 			});
 		});
 	} catch (e) {
@@ -560,12 +558,16 @@ router.post('/:userId/offers/:offerId', async (req, res) => {
 		// ).format(currentDateAndTime);
 		const fifteenMinutesLater = new Date(currentDateAndTime);
 		fifteenMinutesLater.setMinutes(currentDateAndTime.getMinutes() + 15);
-		var result = await createOrder(offer.discountedPrice * 100, 'INR', offer.name);
-		if(result.statusCode != 200){
+		var result = await createOrder(
+			offer.discountedPrice * 100,
+			'INR',
+			offer.name
+		);
+		if (result.statusCode != 200) {
 			throw 'Error in creating order';
 		}
 		orderId = result.body;
-		
+
 		var order = new Order({
 			user: req.params.userId,
 			orderId: result.body,
@@ -577,6 +579,7 @@ router.post('/:userId/offers/:offerId', async (req, res) => {
 			orderDescription: 'Proceeding to the payment page',
 			paymentStatus: 'Pending',
 			orderType: 'New',
+			tokenCount: offer.tokenCount,
 		});
 		var savedOrder = await order.save();
 
@@ -617,17 +620,30 @@ router.get('/:userId/orders', async (req, res) => {
 	}
 });
 
-
-
-async function createEnrollmentToken(userId, orderId, paymentId) {
+async function createEnrollmentToken(payload) {
 	console.log('Creating enrollment tokens');
 	var flag = 0;
 	var policyId = '',
 		deviceId = '';
 	try {
-		var user = await User.findById(userId);
-		// TODO Optimization by passing orderItself rather than id
-		const order = await Order.findById(orderId);
+		const orderId = payload.order.entity.id;
+		const paymentMethod = payload.payment.entity.method;
+		const paymentId = payload.payment.entity.id;
+		const currentDateAndTime = new Date();
+
+		var order = await Order.findOne({ orderId: orderId });
+		order.paymentMethod = paymentMethod;
+		order.paymentId = paymentId;
+		order.paymentCompleteDate = currentDateAndTime;
+		order.orderStatus = 'Payment complete';
+		order.orderDescription = 'Payment complete, your tokens will be visible in a few minutes';
+		order.paymentStatus = 'Paid';
+		await order.save();
+
+		var user = await User.findById(order.user);
+		
+		user.tokenCount = user.tokenCount + order.tokenCount;
+		await user.save();
 		var tokenCount = user.tokenCount;
 		if (tokenCount <= 0) {
 			throw 'User has no tokens left';
@@ -667,7 +683,7 @@ async function createEnrollmentToken(userId, orderId, paymentId) {
 				currentlyEnrolled: false,
 				policy: policy._id,
 				// TODO description and status of yet to be enrolled
-				otp: Math.floor(100000 + Math.random() * 900000),
+				otp: generateRandomWord(8),
 			});
 			await device.save();
 			user.devices.push(device._id);

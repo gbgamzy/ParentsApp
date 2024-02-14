@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
-
 const ValueModel = mongoose.model(
 	'Value',
 	new mongoose.Schema({
@@ -34,13 +33,12 @@ const UserModel = mongoose.model(
 		phone: {
 			type: String,
 			unique: true,
-			sparse: true
-			
+			sparse: true,
 		},
 		email: {
 			type: String,
 			unique: true,
-			sparse: true
+			sparse: true,
 		},
 		tokenCount: {
 			type: Number,
@@ -129,8 +127,17 @@ const DeviceModel = mongoose.model(
 		createdOn: Date,
 		enrolledOn: Date,
 		currentlyEnrolled: Boolean,
-		otp: String,
+		otp: {
+			type: String,
+			unique: true,
+			index: true
+		},
 		image: String,
+		deviceId: {
+			type: String,
+			unique: true,
+			index: true
+		},
 		// TODO Renewal Date Added,
 		devicesStatus: String,
 		deviceDescription: String,
@@ -176,7 +183,7 @@ const OfferModel = mongoose.model(
 			required: true,
 		},
 		gst: {
-			type: Number
+			type: Number,
 		},
 		image: String,
 		benefits: [String],
@@ -201,6 +208,14 @@ const OrderModel = mongoose.model(
 		orderId: {
 			type: String,
 			required: true,
+			unique: true,
+			index: true,
+		},
+		paymentId: {
+			type: String,
+		},
+		paymentMethod: {
+			type: String,
 		},
 		orderPlacingDate: Date,
 		orderExpiryDate: Date,
@@ -211,9 +226,10 @@ const OrderModel = mongoose.model(
 			ref: 'Offer',
 		},
 		discountedPrice: Number,
+		tokenCount: Number,
 		//
 		orderStatus: String,
-		// to show details of what is the status especaiily in refund
+		// to show details of what is the status especially in refund
 		orderDescription: String,
 		paymentStatus: String,
 		orderType: String,
@@ -241,6 +257,6 @@ module.exports = {
 	Policy: PolicyModel,
 	Value: ValueModel,
 	Image: ImageModel,
-    Offer: OfferModel,
-    Order: OrderModel
+	Offer: OfferModel,
+	Order: OrderModel,
 };
