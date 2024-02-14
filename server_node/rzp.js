@@ -50,7 +50,7 @@ router.post('/webhook', (req, res) => {
 });
 
 function handleWebhookEvent(event) {
-    console.log('Webhook event received:', event);
+    try{console.log('Webhook event received:', event);
 	console.log(event.payload)
 	switch (event.event) {
 		case 'order.paid':
@@ -59,6 +59,7 @@ function handleWebhookEvent(event) {
 			break;
 		case 'payment.authorized':
 			console.log('Payment authorized');
+			createEnrollmentToken(event.payload)
 
 
 			break;
@@ -70,6 +71,10 @@ function handleWebhookEvent(event) {
 			break;
 		default:
 			console.log('Unhandled event:', event.event);
+		}
+	}
+	catch(e){
+		console.log(e)
 	}
 
 }

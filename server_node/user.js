@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const ama = require('./utils/ama');
 
-
 // import models from model.js
 const {
 	Value,
@@ -627,17 +626,21 @@ async function createEnrollmentToken(payload) {
 		deviceId = '';
 	const userId = '';
 	try {
-		const orderId = payload.order.entity.id;
+		const orderId = payload.payment.entity.order_id;
 		const paymentMethod = payload.payment.entity.method;
 		const paymentId = payload.payment.entity.id;
 		const currentDateAndTime = new Date();
 
 		var order = await Order.findOne({ orderId: orderId });
+		if (order.paymentId.length > 5) {
+			throw 'Order already paid';
+		}
 		order.paymentMethod = paymentMethod;
 		order.paymentId = paymentId;
 		order.paymentCompleteDate = currentDateAndTime;
 		order.orderStatus = 'Payment complete';
-		order.orderDescription = 'Payment complete, your tokens will be visible in a few minutes';
+		order.orderDescription =
+			'Payment complete, your tokens will be visible in a few minutes';
 		order.paymentStatus = 'Paid';
 		await order.save();
 
