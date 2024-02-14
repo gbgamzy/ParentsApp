@@ -625,6 +625,7 @@ async function createEnrollmentToken(payload) {
 	var flag = 0;
 	var policyId = '',
 		deviceId = '';
+	const userId = '';
 	try {
 		const orderId = payload.order.entity.id;
 		const paymentMethod = payload.payment.entity.method;
@@ -694,7 +695,7 @@ async function createEnrollmentToken(payload) {
 			console.log(r);
 			device.qrCode = r;
 			device.save();
-			const userId = user._id;
+			userId = user._id;
 			if (r == null) {
 				throw 'Error in generating enrollment token';
 			} else {

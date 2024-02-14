@@ -3,13 +3,15 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from AMA.api import AMA 
+import logging
 
 @csrf_exempt
 def getEnrollmentToken1(request):
 
     if(request.method != 'POST'):
-        print("Invalid method")
-        print(request.method)
+
+        logging.debug("Invalid method")
+        logging.debug(request.method)
         return JsonResponse({'message': 'Invalid request'},
                             status=400)
     
