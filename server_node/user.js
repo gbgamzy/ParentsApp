@@ -641,7 +641,7 @@ async function createEnrollmentToken(payload) {
 		await order.save();
 
 		var user = await User.findById(order.user);
-		
+
 		user.tokenCount = user.tokenCount + order.tokenCount;
 		await user.save();
 		var tokenCount = user.tokenCount;
@@ -694,6 +694,7 @@ async function createEnrollmentToken(payload) {
 			console.log(r);
 			device.qrCode = r;
 			device.save();
+			const userId = user._id;
 			if (r == null) {
 				throw 'Error in generating enrollment token';
 			} else {
