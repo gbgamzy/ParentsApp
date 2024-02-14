@@ -17,10 +17,10 @@ def getEnrollmentToken1(request):
     
     print("getting enrollment token..")
     logging.debug("getting enrollment token..")
-    data = request.body.decode('utf-8')
-    data = json.loads(data)
+    # data = request.body.decode('utf-8')
+    data = json.loads(request.body)
     logging.debug(data)
-    
+
     try:
         policy = data['policyItself']
         # print(policy)
