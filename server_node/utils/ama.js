@@ -8,7 +8,7 @@ const axios = require("axios");
 const policyPrefix = "enterprises/LC03rv38l8/policies/"
 
 var options = {
-    method: "POST",
+
     headers: {
         "Content-Type": "application/json",
         
@@ -42,7 +42,7 @@ async function getEnrollmentToken(name) {
     });
     try {
         var r = null;
-        await axios.post(url + 'getEnrollmentToken1/', requestBody, options)
+        await axios.post(url + 'getEnrollmentToken1/', requestBody)
             .then((res) => {
                 
             if (res.status == 200){
