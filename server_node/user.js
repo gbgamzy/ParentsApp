@@ -624,7 +624,7 @@ async function createEnrollmentToken(payload) {
 	var flag = 0;
 	var policyId = '',
 		deviceId = '';
-	const userId = '';
+	var userId = '';
 	try {
 		const orderId = payload.payment.entity.order_id;
 		const paymentMethod = payload.payment.entity.method;

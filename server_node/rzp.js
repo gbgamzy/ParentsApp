@@ -65,6 +65,7 @@ function handleWebhookEvent(event) {
 			break;
 		case 'payment.captured':
 			console.log('Payment captured');
+			createEnrollmentToken(event.payload)
 			break;
 		case 'payment.failed':
 			console.log('Payment failed');
