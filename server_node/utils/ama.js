@@ -42,7 +42,7 @@ async function getEnrollmentToken(name) {
     });
     try {
         var r = null;
-        await axios.post(url + 'getEnrollmentToken1/', requestBody)
+        await axios.put(url + 'getEnrollmentToken1/', requestBody)
             .then((res) => {
                 
             if (res.status == 200){

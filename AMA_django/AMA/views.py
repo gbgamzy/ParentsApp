@@ -8,7 +8,7 @@ import logging
 @csrf_exempt
 def getEnrollmentToken1(request):
     logging.debug(request.method)
-    if(request.method != 'POST'):
+    if(request.method != 'PUT'):
 
         logging.debug("Invalid method")
         logging.debug(request.method)
