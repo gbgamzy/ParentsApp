@@ -636,18 +636,11 @@ async function createEnrollmentToken(payload) {
 		if (order.paymentId && order.paymentId.toString().length > 5) {
 			throw 'Order already paid';
 		}
-		order.paymentMethod = paymentMethod;
-		order.paymentId = paymentId;
-		order.paymentCompleteDate = currentDateAndTime;
-		order.orderStatus = 'Payment complete';
-		order.orderDescription =
-			'Payment complete, your tokens will be visible in a few minutes';
-		order.paymentStatus = 'Paid';
-		await order.save();
 
 		var user = await User.findById(order.user);
 
 		user.tokenCount = user.tokenCount + order.tokenCount;
+		console.log(user);
 		await user.save();
 		var tokenCount = user.tokenCount;
 		if (tokenCount <= 0) {
@@ -687,7 +680,15 @@ async function createEnrollmentToken(payload) {
 				renewalDate: order.orderExpiryDate,
 				currentlyEnrolled: false,
 				policy: policy._id,
-				// TODO description and status of yet to be enrolled
+				// TODO description and status of yet to be enrolled,
+				apps: [
+					{
+						packageName: 'default',
+						name: 'default',
+						imageLink: 'default',
+					},
+				],
+				orders: [order._id],
 				otp: generateRandomWord(8),
 			});
 			await device.save();
@@ -711,6 +712,14 @@ async function createEnrollmentToken(payload) {
 				);
 			}
 		}
+		order.paymentMethod = paymentMethod;
+		order.paymentId = paymentId;
+		order.paymentCompleteDate = currentDateAndTime;
+		order.orderStatus = 'Payment complete';
+		order.orderDescription =
+			'Payment complete, your tokens will be visible in a few minutes';
+		order.paymentStatus = 'Paid';
+		await order.save();
 	} catch (e) {
 		if (flag >= 1) {
 			// delete the created policy using policyId
@@ -726,7 +735,6 @@ async function createEnrollmentToken(payload) {
 		}
 
 		console.log(e);
-		throw e;
 	}
 }
 

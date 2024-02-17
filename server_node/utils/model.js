@@ -135,7 +135,7 @@ const DeviceModel = mongoose.model(
 		image: String,
 		deviceId: {
 			type: String,
-			unique: true,
+			// unique: true,
 			index: true
 		},
 		// TODO Renewal Date Added,
@@ -145,8 +145,7 @@ const DeviceModel = mongoose.model(
 		apps: [
 			{
 				package: {
-					type: String,
-					unique: true,
+					type: String
 				},
 				name: String,
 				imageLink: String,
