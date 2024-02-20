@@ -16,7 +16,7 @@ const live_mode = true;
 
 mongoose.set('strictQuery', false);
 mongoose
-	.connect('mongodb://gbdev:okWNsim6@127.0.0.1:27017/parentsdb', {
+	.connect('mongodb://gbdev:okWNsim6@0.0.0.0:27017/parentsdb', {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
