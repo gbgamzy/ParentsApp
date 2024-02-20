@@ -6,37 +6,38 @@ const fileUpload = require('express-fileupload');
 var MongoClient = require('mongodb').MongoClient;
 
 const { userRoute } = require('./user');
-const { rzpRoute} = require('./rzp');
-const homeRoute=require('./home');
-const adminRoute=require('./admin');
+const { rzpRoute } = require('./rzp');
+const homeRoute = require('./home');
+const adminRoute = require('./admin');
 const { admin } = require('googleapis/build/src/apis/admin');
 // var admin = require("firebase-admin");
-
 
 const live_mode = true;
 
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://127.0.0.1:27017/parentsdb', { 
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then((result) => console.log("db connected"))
-.catch(err => console.log(err));
+mongoose
+	.connect('mongodb://gbdev:okWNsim6@127.0.0.1:27017/parentsdb', {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
+	.then((result) => console.log('db connected'))
+	.catch((err) => console.log(err));
 
 const subscriptionName = 'EMIGAPS_SUBSCRIPTION';
 try {
-    listenForEnrollments(subscriptionName).catch(console.error);
+	listenForEnrollments(subscriptionName).catch(console.error);
+} catch (e) {
+	console.log(e);
 }
-catch (e) {
-    console.log(e);
-}
-
 
 // Use Express middleware for handling JSON and URL-encoded form data
-const app=express();
+const app = express();
 
-app.use(cors({
-    origin: '*'
-}));
+app.use(
+	cors({
+		origin: '*',
+	})
+);
 app.use(express.json());
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
@@ -47,12 +48,9 @@ app.use('/admin', adminRoute);
 app.use('/rzp', rzpRoute);
 
 app.listen(3005, () => {
-    console.log('Server started on http://localhost:3005');
+	console.log('Server started on http://localhost:3005');
 });
 
-
-
 module.exports = {
-    live_mode: live_mode,
+	live_mode: live_mode,
 };
-
