@@ -129,8 +129,9 @@ const DeviceModel = mongoose.model(
 		currentlyEnrolled: Boolean,
 		otp: {
 			type: String,
-			unique: true,
-			index: true
+			// unique: true,
+			index: true,
+			sparse: true
 		},
 		image: String,
 		deviceId: {

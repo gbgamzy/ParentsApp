@@ -18,7 +18,7 @@ const { createOrder } = require('./utils/rzp');
 
 // import functions from sms.js
 const SMS = require('./utils/sms');
-const { generateRandomWord } = require('./utils/utils');
+const { generateRandomWord, redeemRandomWord } = require('./utils/utils');
 
 const options = {
 	timeZone: 'Asia/Kolkata', // Indian Standard Time (IST)
@@ -618,6 +618,37 @@ router.get('/:userId/orders', async (req, res) => {
 		});
 	}
 });
+
+// post request to link a device
+router.post('/link', async (req, res) => {
+	try {
+		var deviceId = req.body.deviceId;
+		var otp = req.body.otp;
+		var device = await Device.findById({ otp: otp });
+		if (!device) {
+			throw 'Device not found';
+		}
+		device.deviceId = deviceId;
+		device.otp = '';
+		redeemRandomWord(otp);
+		await device.save();
+		res.statusCode = 200;
+		res.send({
+			message: 'Device linked successfully',
+			body: device,
+		});
+	}
+	catch (e) {
+		console.log(e);
+		res.statusCode = 500;
+		res.send({
+			message: 'Internal server error',
+			body: e,
+		});
+	
+	}
+});
+
 
 async function createEnrollmentToken(payload) {
 	console.log('Creating enrollment tokens');
