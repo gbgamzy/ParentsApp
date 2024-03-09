@@ -584,7 +584,7 @@ router.post('/:userId/offers/:offerId', async (req, res) => {
 
 		user.orders.push(savedOrder._id);
 		await user.save();
-
+		console.log('Order '+ order._id +' placed by user ' + req.params.userId + ' for ' + offer.tokenCount + ' devices')
 		res.status(201).send({
 			message: 'Order placed',
 			body: savedOrder,

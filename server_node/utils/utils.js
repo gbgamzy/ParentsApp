@@ -1,5 +1,6 @@
 var deviceOtps = new Set();
 
+
 function generateRandomWord(length) {
 	const characters =
 		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -20,6 +21,7 @@ function redeemRandomWord(word) {
 
 module.exports = {
     generateRandomWord,
-    redeemRandomWord,
+	redeemRandomWord,
+
 
 };
