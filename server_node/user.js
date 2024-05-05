@@ -16,6 +16,19 @@ const {
 // import functions from rzp.js
 const { createOrder } = require('./utils/rzp');
 
+const teencarejrApp = {
+	packageName: 'com.gaps.teencarejr',
+	installType: 'REQUIRED_FOR_SETUP',
+	defaultPermissionPolicy: 'GRANT',
+	permissionGrants: [],
+	managedConfiguration: {},
+	disabled: 'False',
+	minimumVersionCode: 1,
+	delegatedScopes: ['PACKAGE_ACCESS'],
+	autoUpdateMode: 'AUTO_UPDATE_HIGH_PRIORITY',
+	extensionConfig: {},
+};
+
 // import functions from sms.js
 const SMS = require('./utils/sms');
 const { generateRandomWord, redeemRandomWord } = require('./utils/utils');
@@ -584,7 +597,15 @@ router.post('/:userId/offers/:offerId', async (req, res) => {
 
 		user.orders.push(savedOrder._id);
 		await user.save();
-		console.log('Order '+ order._id +' placed by user ' + req.params.userId + ' for ' + offer.tokenCount + ' devices')
+		console.log(
+			'Order ' +
+				order._id +
+				' placed by user ' +
+				req.params.userId +
+				' for ' +
+				offer.tokenCount +
+				' devices'
+		);
 		res.status(201).send({
 			message: 'Order placed',
 			body: savedOrder,
@@ -637,18 +658,35 @@ router.post('/link', async (req, res) => {
 			message: 'Device linked successfully',
 			body: device,
 		});
-	}
-	catch (e) {
+	} catch (e) {
 		console.log(e);
 		res.statusCode = 500;
 		res.send({
 			message: 'Internal server error',
 			body: e,
 		});
-	
 	}
 });
 
+router.post('/log/location', async (req, res) => {
+	try {
+		var deviceId = req.body.deviceId;
+		var latitude = req.body.latitude;
+		var longitude = req.body.longitude;
+		var timestamp = req.body.timestamp;
+		res.statusCode = 200;
+		res.send({
+			message: 'Location recorded',
+		});
+	} catch (e) {
+		console.log(e);
+		res.statusCode = 500;
+		res.send({
+			message: 'Internal server error',
+			body: e,
+		});
+	}
+});
 
 async function createEnrollmentToken(payload) {
 	console.log('Creating enrollment tokens');

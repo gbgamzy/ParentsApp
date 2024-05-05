@@ -56,8 +56,17 @@ function checkIfOrderInProcessing(orderId) {
 	}
 }
 
+// TODO: Make it a service
+function orderProcessingComplete(orderId) {
+	try {
+		orderPipeline.delete(orderId);
+	} catch (e) {
+		console.log(e);
+	}
+}
+
 function handleWebhookEvent(event) {
-	var ifProcessing = ''
+	var ifProcessing = '';
 	try {
 		switch (event.event) {
 			case 'order.paid':
