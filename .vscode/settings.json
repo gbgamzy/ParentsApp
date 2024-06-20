@@ -1,7 +1,7 @@
 {
 "java.configuration.updateBuildConfiguration": "automatic",
 "files.exclude": {
-    "**/AMA_django": true,
+    // "**/AMA_django": true,
     // "**/server_node": true,
     "**/JrTeenCare": true,
     "**/TeenCareWeb": true,
