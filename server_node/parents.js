@@ -16,9 +16,10 @@ const live_mode = true;
 
 mongoose.set('strictQuery', false);
 mongoose
-	.connect('mongodb://gbdev:okWNsim6@0.0.0.0:27017/parentsdb', {
+	.connect('mongodb://gbdev:okWNsim6@localhost:27017/parentsdb', {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		serverSelectionTimeoutMS: 30000,
 	})
 	.then((result) => console.log('db connected'))
 	.catch((err) => console.log(err));

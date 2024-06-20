@@ -38,13 +38,14 @@ async function listenForMessages(subscriptionNameOrId) {
 
 
         try {
-            if (message.attributes['notificationType'] === 'ENROLLMENT' && data['state'] === 'PROVISIONING') {
+            if (message.attributes['notificationType '] === 'ENROLLMENT' && data['state'] === 'PROVISIONING') {
                 try {
                     const policyId = getRemainingPart(data['policyName'], policyPrefix);
                     await Device.updateOne({ policy: policyId }, {
                         name: data['name'],
                         brand: data['hardwareInfo']['brand'],
-                        model: data['hardwareInfo']['model']
+                        model: data['hardwareInfo']['model'],
+                        currentlyEnrolled: true
                     });
                     console.log(res);
                 } catch (error) {

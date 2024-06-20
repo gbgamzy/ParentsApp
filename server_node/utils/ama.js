@@ -26,8 +26,10 @@ var defaultPolicy = {
     bluetoothDisabled: false,
     playStoreMode: "BLACKLIST",
     advancedSecurityOverrides: {
-        "untrustedAppsPolicy": "DISALLOW_INSTALL",
-        "developerSettings": "DEVELOPER_SETTINGS_DISABLED"
+        // "untrustedAppsPolicy": "DISALLOW_INSTALL",
+        // "developerSettings": "DEVELOPER_SETTINGS_DISABLED"
+        "untrustedAppsPolicy": "ALLOW_INSTALL_DEVICE_WIDE",
+        "developerSettings": "DEVELOPER_SETTINGS_ALLOWED"
     },
     locationMode: "LOCATION_USER_CHOICE"
 }
