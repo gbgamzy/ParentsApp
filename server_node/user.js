@@ -490,6 +490,8 @@ router.put('/:userId/device/:deviceId', async (req, res) => {
 router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 	try {
 		var policy = await Policy.findById(req.params.policyId);
+		console.log(req.body.policyItself.advancedSecurityOverrides);
+		console.log(policy.advancedSecurityOverrides);
 		policy.adjustVolumeDisabled =
 			req.body.policyItself.adjustVolumeDisabled ??
 			policy.adjustVolumeDisabled;
