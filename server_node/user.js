@@ -3,8 +3,6 @@ const router = express.Router();
 const ama = require('./utils/ama');
 const fileUpload = require('express-fileupload');
 
-
-
 const app = express();
 
 // Middleware configuration
@@ -489,11 +487,11 @@ router.put('/:userId/device/:deviceId', async (req, res) => {
 // UPDATE POLICY put request taking in userId, deviceId and policyId as params to update policy
 router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 	try {
-		console.log("Updating policy for ${req.params.policyId}");
+		console.log(`Updating policy for ${req.params.policyId}`);
 		var policy = await Policy.findById(req.params.policyId);
 		if (!policy) {
-            throw new Error('Policy not found');
-        }
+			throw new Error('Policy not found');
+		}
 
 		// policy.adjustVolumeDisabled =
 		// 	req.body.policyItself.adjustVolumeDisabled ??
@@ -523,15 +521,17 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		console.log(policy);
 		console.log(req.body.policyItself);
 		updatePolicyFields(policy, req.body.policyItself);
-        const updatedPolicyItself = { ...req.body.policyItself };
-		updatePolicyFields(updatedPolicyItself, policy);
+		var updatedPolicyItself = { ...policy };
 		console.log('Final policy to update:', policy);
-        console.log('Updated policyItself to send to AMA:', updatedPolicyItself);
+
 		delete req.body.policyItself._id;
 		// delete req.body.policyItself.applications;
 		delete req.body.policyItself.__v;
 		// delete req.body.policyItself.advancedSecurityOverrides;
-
+		console.log(
+			'Updated policyItself to send to AMA:',
+			updatedPolicyItself
+		);
 		console.log(req.body.policyItself);
 		var result = await ama.updatePolicy({
 			policyItself: updatedPolicyItself,
@@ -709,27 +709,25 @@ router.post('/log/location', async (req, res) => {
 });
 
 function updatePolicyFields(policy, updates) {
-    const fields = [
-        'adjustVolumeDisabled',
-        'installAppsDisabled',
-        'mountPhysicalMediaDisabled',
-        'outgoingCallsDisabled',
-        'usbFileTransferDisabled',
-        'bluetoothDisabled',
-        'playStoreMode',
-        'applications',
+	const fields = [
+		'adjustVolumeDisabled',
+		'installAppsDisabled',
+		'mountPhysicalMediaDisabled',
+		'outgoingCallsDisabled',
+		'usbFileTransferDisabled',
+		'bluetoothDisabled',
+		'playStoreMode',
+		'applications',
 		'advancedSecurityOverrides',
-		'locationMode'
+		'locationMode',
 	];
-	
 
-    fields.forEach(field => {
-        if (updates[field] !== undefined && updates[field] != null) {
-            policy[field] = updates[field];
-        }
-    });
+	fields.forEach((field) => {
+		if (updates[field] !== undefined && updates[field] != null) {
+			policy[field] = updates[field];
+		}
+	});
 }
-
 
 async function createEnrollmentToken(payload) {
 	console.log('Creating enrollment tokens');
