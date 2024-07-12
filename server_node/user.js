@@ -1,6 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const ama = require('./utils/ama');
+const fileUpload = require('express-fileupload');
+
+
+
+const app = express();
+
+// Middleware configuration
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(fileUpload({ limits: { fileSize: 50 * 1024 * 1024 } })); // 50MB limit
 
 // import models from model.js
 const {
