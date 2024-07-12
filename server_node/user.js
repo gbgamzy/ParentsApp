@@ -489,36 +489,44 @@ router.put('/:userId/device/:deviceId', async (req, res) => {
 // UPDATE POLICY put request taking in userId, deviceId and policyId as params to update policy
 router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 	try {
+		console.log("Updating policy for ${req.params.policyId}");
 		var policy = await Policy.findById(req.params.policyId);
-		console.log(req.body.policyItself.advancedSecurityOverrides);
-		console.log(policy.advancedSecurityOverrides);
-		policy.adjustVolumeDisabled =
-			req.body.policyItself.adjustVolumeDisabled ??
-			policy.adjustVolumeDisabled;
-		policy.installAppsDisabled =
-			req.body.policyItself.installAppsDisabled ??
-			policy.installAppsDisabled;
-		policy.mountPhysicalMediaDisabled =
-			req.body.policyItself.mountPhysicalMediaDisabled ??
-			policy.mountPhysicalMediaDisabled;
-		policy.outgoingCallsDisabled =
-			req.body.policyItself.outgoingCallsDisabled ??
-			policy.outgoingCallsDisabled;
-		policy.usbFileTransferDisabled =
-			req.body.policyItself.usbFileTransferDisabled ??
-			policy.usbFileTransferDisabled;
-		policy.bluetoothDisabled =
-			req.body.policyItself.bluetoothDisabled ?? policy.bluetoothDisabled;
-		policy.playStoreMode =
-			req.body.policyItself.playStoreMode ?? policy.playStoreMode;
-		policy.applications =
-			req.body.policyItself.applications ?? policy.applications;
-		// policy.locationMode = req.body.policyItself.locationMode ?? policy.locationMode;
-		policy.advancedSecurityOverrides =
-			req.body.policyItself.advancedSecurityOverrides ??
-			policy.advancedSecurityOverrides;
-		console.log('Mongodb');
+		if (!policy) {
+            throw new Error('Policy not found');
+        }
+
+		// policy.adjustVolumeDisabled =
+		// 	req.body.policyItself.adjustVolumeDisabled ??
+		// 	policy.adjustVolumeDisabled;
+		// policy.installAppsDisabled =
+		// 	req.body.policyItself.installAppsDisabled ??
+		// 	policy.installAppsDisabled;
+		// policy.mountPhysicalMediaDisabled =
+		// 	req.body.policyItself.mountPhysicalMediaDisabled ??
+		// 	policy.mountPhysicalMediaDisabled;
+		// policy.outgoingCallsDisabled =
+		// 	req.body.policyItself.outgoingCallsDisabled ??
+		// 	policy.outgoingCallsDisabled;
+		// policy.usbFileTransferDisabled =
+		// 	req.body.policyItself.usbFileTransferDisabled ??
+		// 	policy.usbFileTransferDisabled;
+		// policy.bluetoothDisabled =
+		// 	req.body.policyItself.bluetoothDisabled ?? policy.bluetoothDisabled;
+		// policy.playStoreMode =
+		// 	req.body.policyItself.playStoreMode ?? policy.playStoreMode;
+		// policy.applications =
+		// 	req.body.policyItself.applications ?? policy.applications;
+		// // policy.locationMode = req.body.policyItself.locationMode ?? policy.locationMode;
+		// policy.advancedSecurityOverrides =
+		// 	req.body.policyItself.advancedSecurityOverrides ??
+		// 	policy.advancedSecurityOverrides;
 		console.log(policy);
+		console.log(req.body.policyItself);
+		updatePolicyFields(policy, req.body.policyItself);
+        const updatedPolicyItself = { ...req.body.policyItself };
+		updatePolicyFields(updatedPolicyItself, req.body.policyItself);
+		console.log('Final policy to update:', policy);
+        console.log('Updated policyItself to send to AMA:', updatedPolicyItself);
 		delete req.body.policyItself._id;
 		// delete req.body.policyItself.applications;
 		delete req.body.policyItself.__v;
@@ -526,7 +534,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 
 		console.log(req.body.policyItself);
 		var result = await ama.updatePolicy({
-			policyItself: req.body.policyItself,
+			policyItself: updatedPolicyItself,
 		});
 		if (result == false) {
 			throw 'Error in updating policy';
@@ -699,6 +707,27 @@ router.post('/log/location', async (req, res) => {
 		});
 	}
 });
+
+function updatePolicyFields(policy, updates) {
+    const fields = [
+        'adjustVolumeDisabled',
+        'installAppsDisabled',
+        'mountPhysicalMediaDisabled',
+        'outgoingCallsDisabled',
+        'usbFileTransferDisabled',
+        'bluetoothDisabled',
+        'playStoreMode',
+        'applications',
+        'advancedSecurityOverrides'
+    ];
+
+    fields.forEach(field => {
+        if (updates[field] !== undefined) {
+            policy[field] = updates[field];
+        }
+    });
+}
+
 
 async function createEnrollmentToken(payload) {
 	console.log('Creating enrollment tokens');
