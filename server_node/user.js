@@ -523,7 +523,6 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		updatePolicyFields(policy, req.body.policyItself);
 		var updatedPolicyItself = { ...policy };
 		console.log('Final policy to update:', policy);
-
 		delete req.body.policyItself._id;
 		// delete req.body.policyItself.applications;
 		delete req.body.policyItself.__v;
