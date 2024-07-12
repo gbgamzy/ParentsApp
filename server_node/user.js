@@ -524,7 +524,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		console.log(req.body.policyItself);
 		updatePolicyFields(policy, req.body.policyItself);
         const updatedPolicyItself = { ...req.body.policyItself };
-		updatePolicyFields(updatedPolicyItself, req.body.policyItself);
+		updatePolicyFields(updatedPolicyItself, policy);
 		console.log('Final policy to update:', policy);
         console.log('Updated policyItself to send to AMA:', updatedPolicyItself);
 		delete req.body.policyItself._id;
@@ -718,7 +718,8 @@ function updatePolicyFields(policy, updates) {
         'bluetoothDisabled',
         'playStoreMode',
         'applications',
-        'advancedSecurityOverrides'
+		'advancedSecurityOverrides',
+		'locationMode'
 	];
 	
 
