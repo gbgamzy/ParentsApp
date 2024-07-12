@@ -25,7 +25,7 @@ class AMA:
     secretFile = os.path.join(os.getcwd(), 'emisafe-397b406ffd1b.json')
     CALLBACK_URL = 'https://storage.googleapis.com/android-management-quick-start/enterprise_signup_callback.html'
     subscriptionId = 'DeviceEnrolledSubscription'
-    enterpriseId = 'LC03rv38l8'
+    enterpriseId = '`LC03rv38l8`'
     timeout = 5.0
     credentials = service_account.Credentials.from_service_account_file(secretFile, scopes=SCOPES)
     # subscriber = pubsub_v1.SubscriberClient()
