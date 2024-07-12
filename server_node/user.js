@@ -719,7 +719,8 @@ function updatePolicyFields(policy, updates) {
         'playStoreMode',
         'applications',
         'advancedSecurityOverrides'
-    ];
+	];
+	
 
     fields.forEach(field => {
         if (updates[field] !== undefined && updates[field] != null) {
