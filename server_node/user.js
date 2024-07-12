@@ -722,7 +722,7 @@ function updatePolicyFields(policy, updates) {
     ];
 
     fields.forEach(field => {
-        if (updates[field] !== undefined && updates[field] !== null) {
+        if (updates[field] !== undefined && updates[field] != null) {
             policy[field] = updates[field];
         }
     });
