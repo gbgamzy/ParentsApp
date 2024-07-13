@@ -494,7 +494,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		}
 		console.log(policy);
 		console.log(req.body.policyItself);
-		updatePolicyFields(policy, req.body.policyItself);
+		updatePolicyFields(policy.toJSON(), req.body.policyItself);
 		var updatedPolicyItself = policy.toJSON();
 		console.log('Final policy to update:', policy);
 		delete updatedPolicyItself._id;
