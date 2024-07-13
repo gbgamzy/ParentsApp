@@ -700,8 +700,9 @@ function updatePolicyFields(policy, updates) {
 
 	if (policy.applications) {
 		policy.applications = policy.applications.map(app => {
-			const { _id, ...rest } = app.toObject ? app.toObject() : app; // Ensure app is a plain object
-			return rest;
+			const appObject = app.toObject ? app.toObject() : app; // Ensure app is a plain object
+			delete appObject._id;
+			return appObject;
 		});
 	}
 }
