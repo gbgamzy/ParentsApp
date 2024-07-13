@@ -697,6 +697,13 @@ function updatePolicyFields(policy, updates) {
 			policy[field] = updates[field];
 		}
 	});
+
+	if (policy.applications) {
+		policy.applications = policy.applications.map(app => {
+			const { _id, ...rest } = app.toObject ? app.toObject() : app; // Ensure app is a plain object
+			return rest;
+		});
+
 }
 
 async function createEnrollmentToken(payload) {
