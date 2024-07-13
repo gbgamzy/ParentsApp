@@ -701,6 +701,10 @@ function updatePolicyFields(policy, updates) {
 	policy.applications.forEach((app) => {
 		delete app._id;
 	})
+	for (let i = 0; i < policy.applications.length; i++){
+		delete policy.applications[i]._id;
+	}
+	
 
 }
 
