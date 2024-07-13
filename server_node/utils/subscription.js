@@ -47,7 +47,7 @@ async function listenForMessages(subscriptionNameOrId) {
                         model: data['hardwareInfo']['model'],
                         currentlyEnrolled: true
                     });
-                    console.log(res);
+                    // console.log(res);
                 } catch (error) {
                     console.log(error);
                 }
