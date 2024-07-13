@@ -76,7 +76,7 @@ const PolicyModel = mongoose.model(
 				// FORCE_INSTALLED
 				// BLOCKED
 				// KIOSK
-				disabled: String,
+				disabled: Boolean,
 			},
 		],
 		adjustVolumeDisabled: Boolean,

@@ -30,7 +30,7 @@ const teencarejrApp = {
 	defaultPermissionPolicy: 'GRANT',
 	permissionGrants: [],
 	managedConfiguration: {},
-	disabled: 'False',
+	disabled: 'false',
 	minimumVersionCode: 1,
 	delegatedScopes: ['PACKAGE_ACCESS'],
 	autoUpdateMode: 'AUTO_UPDATE_HIGH_PRIORITY',
