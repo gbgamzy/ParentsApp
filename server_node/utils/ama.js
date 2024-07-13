@@ -104,8 +104,7 @@ async function updatePolicy(policy) {
     });
     console.log("Request body")
     console.log(policy);
-    console.log(policy.policyItself.advancedSecurityOverrides)
-    delete policy.policyItself.advancedSecurityOverrides;
+    // delete policy.policyItself.advancedSecurityOverrides;
 
     try {
         await axios.put(url + 'updatePolicy1/', policy
