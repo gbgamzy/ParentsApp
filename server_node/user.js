@@ -494,7 +494,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		}
 		console.log(policy);
 		console.log(req.body.policyItself);
-		updatePolicyFields(policy.toJSON(), req.body.policyItself);
+		updatePolicyFields(policy, req.body.policyItself);
 		var updatedPolicyItself = policy.toJSON();
 		console.log('Final policy to update:', policy);
 		delete updatedPolicyItself._id;
@@ -687,7 +687,7 @@ function updatePolicyFields(policy, updates) {
 		'usbFileTransferDisabled',
 		'bluetoothDisabled',
 		'playStoreMode',
-		'applications', 
+		// 'applications',
 		'advancedSecurityOverrides',
 		'locationMode',
 	];
@@ -698,21 +698,31 @@ function updatePolicyFields(policy, updates) {
 		}
 	});
 
-	policy.applications.forEach((app) => {
-		delete app._id;
-	})
-	for (let i = 0; i < policy.applications.length; i++){
+	policy.applications = [];
+	console.log(`702: ${policy}`);
+	// Add each application from updates
+	if (updates.applications) {
+		for (let i = 0; i < updates.applications.length; i++) {
+			if (updates.applications[i]._id) {
+				delete updates.applications[i]._id;
+			}
+			policy.applications.push(updates.applications[i]);
+		}
+	}
+	console.log(`712: ${policy}`);
+
+	for (let i = 0; i < updates.applications.length; i++) {
 		delete policy.applications[i]._id;
 	}
+	console.log(`717: ${policy}`);
 
-	let teencarejrAppPresent = policy.applications.some(app => app.packageName === teencarejrApp.packageName);
+	let teencarejrAppPresent = policy.applications.some(
+		(app) => app.packageName === teencarejrApp.packageName
+	);
 
 	if (!teencarejrAppPresent) {
 		policy.applications.push(teencarejrApp);
 	}
-
-
-
 }
 
 async function createEnrollmentToken(payload) {
