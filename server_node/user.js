@@ -492,8 +492,6 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		if (!policy) {
 			throw new Error('Policy not found');
 		}
-		console.log(policy);
-		console.log(req.body.policyItself);
 		updatePolicyFields(policy, req.body.policyItself);
 		var updatedPolicyItself = policy.toJSON();
 		console.log('Final policy to update:', policy);
@@ -703,10 +701,11 @@ function updatePolicyFields(policy, updates) {
 	// Add each application from updates
 	if (updates.applications) {
 		for (let i = 0; i < updates.applications.length; i++) {
-			if (updates.applications[i]._id) {
-				delete updates.applications[i]._id;
+			const app = { ...updates.applications[i] }; // Create a copy of the application object
+			if (app._id) {
+				delete app._id; // Delete the _id field from the copy
 			}
-			policy.applications.push(updates.applications[i]);
+			policy.applications.push(app); 
 		}
 	}
 	console.log(`712: ${policy}`);
