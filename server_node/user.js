@@ -492,36 +492,10 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		if (!policy) {
 			throw new Error('Policy not found');
 		}
-
-		// policy.adjustVolumeDisabled =
-		// 	req.body.policyItself.adjustVolumeDisabled ??
-		// 	policy.adjustVolumeDisabled;
-		// policy.installAppsDisabled =
-		// 	req.body.policyItself.installAppsDisabled ??
-		// 	policy.installAppsDisabled;
-		// policy.mountPhysicalMediaDisabled =
-		// 	req.body.policyItself.mountPhysicalMediaDisabled ??
-		// 	policy.mountPhysicalMediaDisabled;
-		// policy.outgoingCallsDisabled =
-		// 	req.body.policyItself.outgoingCallsDisabled ??
-		// 	policy.outgoingCallsDisabled;
-		// policy.usbFileTransferDisabled =
-		// 	req.body.policyItself.usbFileTransferDisabled ??
-		// 	policy.usbFileTransferDisabled;
-		// policy.bluetoothDisabled =
-		// 	req.body.policyItself.bluetoothDisabled ?? policy.bluetoothDisabled;
-		// policy.playStoreMode =
-		// 	req.body.policyItself.playStoreMode ?? policy.playStoreMode;
-		// policy.applications =
-		// 	req.body.policyItself.applications ?? policy.applications;
-		// // policy.locationMode = req.body.policyItself.locationMode ?? policy.locationMode;
-		// policy.advancedSecurityOverrides =
-		// 	req.body.policyItself.advancedSecurityOverrides ??
-		// 	policy.advancedSecurityOverrides;
 		console.log(policy);
 		console.log(req.body.policyItself);
-		updatePolicyFields(policy, req.body.policyItself);
-		var updatedPolicyItself = { ...policy };
+		// updatePolicyFields(policy, req.body.policyItself);
+		var updatedPolicyItself = { ...policy , ...req.body.policyItself};
 		console.log('Final policy to update:', policy);
 		delete updatedPolicyItself._doc._id;
 		// delete req.body.policyItself.applications;
