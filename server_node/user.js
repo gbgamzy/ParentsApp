@@ -704,7 +704,14 @@ function updatePolicyFields(policy, updates) {
 	for (let i = 0; i < policy.applications.length; i++){
 		delete policy.applications[i]._id;
 	}
-	
+
+	let teencarejrAppPresent = policy.applications.some(app => app.packageName === teencarejrApp.packageName);
+
+	if (!teencarejrAppPresent) {
+		policy.applications.push(teencarejrApp);
+	}
+
+
 
 }
 
