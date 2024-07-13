@@ -76,7 +76,7 @@ const PolicyModel = mongoose.model(
 				// FORCE_INSTALLED
 				// BLOCKED
 				// KIOSK
-				disabled: Boolean,
+				disabled: String,
 			},
 		],
 		adjustVolumeDisabled: Boolean,
@@ -131,13 +131,13 @@ const DeviceModel = mongoose.model(
 			type: String,
 			// unique: true,
 			index: true,
-			sparse: true
+			sparse: true,
 		},
 		image: String,
 		deviceId: {
 			type: String,
 			// unique: true,
-			index: true
+			index: true,
 		},
 		// TODO Renewal Date Added,
 		devicesStatus: String,
@@ -146,7 +146,7 @@ const DeviceModel = mongoose.model(
 		apps: [
 			{
 				package: {
-					type: String
+					type: String,
 				},
 				name: String,
 				imageLink: String,

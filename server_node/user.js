@@ -499,7 +499,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 				delete updatedPolicyItself.applications[i]._id;
 			}
 		}
-		console.log('Final policy to update:', policy);
+		// console.log('Final policy to update:', policy);
 		delete updatedPolicyItself._id;
 		// delete req.body.policyItself.applications;
 		delete updatedPolicyItself.__v;
@@ -527,6 +527,54 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		});
 	}
 });
+
+function updatePolicyFields(policy, updates) {
+	const fields = [
+		'adjustVolumeDisabled',
+		'installAppsDisabled',
+		'mountPhysicalMediaDisabled',
+		'outgoingCallsDisabled',
+		'usbFileTransferDisabled',
+		'bluetoothDisabled',
+		'playStoreMode',
+		// 'applications',
+		'advancedSecurityOverrides',
+		'locationMode',
+	];
+
+	fields.forEach((field) => {
+		if (updates[field] !== undefined && updates[field] != null) {
+			policy[field] = updates[field];
+		}
+	});
+
+	policy.applications = [];
+	console.log(`702: ${policy}`);
+	// Add each application from updates
+	if (updates.applications) {
+		for (let i = 0; i < updates.applications.length; i++) {
+			const app = { ...updates.applications[i] }; // Create a copy of the application object
+			if (app._id) {
+				delete app._id; // Delete the _id field from the copy
+			}
+			policy.applications.push(app); 
+		}
+	}
+	console.log(`712: ${policy}`);
+
+	for (let i = 0; i < updates.applications.length; i++) {
+		delete policy.applications[i]._id;
+	}
+	console.log(`717: ${policy}`);
+
+	let teencarejrAppPresent = policy.applications.some(
+		(app) => app.packageName === teencarejrApp.packageName
+	);
+
+	if (!teencarejrAppPresent) {
+		policy.applications.push(teencarejrApp);
+	}
+}
 
 // Fetch all offers
 router.get('/offers', async (req, res) => {
@@ -680,54 +728,6 @@ router.post('/log/location', async (req, res) => {
 		});
 	}
 });
-
-function updatePolicyFields(policy, updates) {
-	const fields = [
-		'adjustVolumeDisabled',
-		'installAppsDisabled',
-		'mountPhysicalMediaDisabled',
-		'outgoingCallsDisabled',
-		'usbFileTransferDisabled',
-		'bluetoothDisabled',
-		'playStoreMode',
-		// 'applications',
-		'advancedSecurityOverrides',
-		'locationMode',
-	];
-
-	fields.forEach((field) => {
-		if (updates[field] !== undefined && updates[field] != null) {
-			policy[field] = updates[field];
-		}
-	});
-
-	policy.applications = [];
-	console.log(`702: ${policy}`);
-	// Add each application from updates
-	if (updates.applications) {
-		for (let i = 0; i < updates.applications.length; i++) {
-			const app = { ...updates.applications[i] }; // Create a copy of the application object
-			if (app._id) {
-				delete app._id; // Delete the _id field from the copy
-			}
-			policy.applications.push(app); 
-		}
-	}
-	console.log(`712: ${policy}`);
-
-	for (let i = 0; i < updates.applications.length; i++) {
-		delete policy.applications[i]._id;
-	}
-	console.log(`717: ${policy}`);
-
-	let teencarejrAppPresent = policy.applications.some(
-		(app) => app.packageName === teencarejrApp.packageName
-	);
-
-	if (!teencarejrAppPresent) {
-		policy.applications.push(teencarejrApp);
-	}
-}
 
 async function createEnrollmentToken(payload) {
 	console.log('Creating enrollment tokens');
