@@ -504,9 +504,8 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		// delete req.body.policyItself.advancedSecurityOverrides;
 		console.log('Updated policyItself to send to AMA');
 		console.log(updatedPolicyItself);
-		console.log(req.body.policyItself);
 		var result = await ama.updatePolicy({
-			policyItself: updatedPolicyItself._doc,
+			policyItself: updatedPolicyItself,
 		});
 		if (result == false) {
 			throw 'Error in updating policy';
