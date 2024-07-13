@@ -523,9 +523,9 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		updatePolicyFields(policy, req.body.policyItself);
 		var updatedPolicyItself = { ...policy };
 		console.log('Final policy to update:', policy);
-		delete req.body.policyItself._id;
+		delete updatedPolicyItself._doc._id;
 		// delete req.body.policyItself.applications;
-		delete req.body.policyItself.__v;
+		delete updatedPolicyItself._doc.__v;
 		// delete req.body.policyItself.advancedSecurityOverrides;
 		console.log(
 			'Updated policyItself to send to AMA:',
@@ -533,7 +533,7 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		);
 		console.log(req.body.policyItself);
 		var result = await ama.updatePolicy({
-			policyItself: updatedPolicyItself,
+			policyItself: updatedPolicyItself._doc,
 		});
 		if (result == false) {
 			throw 'Error in updating policy';
