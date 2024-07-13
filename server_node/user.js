@@ -687,7 +687,7 @@ function updatePolicyFields(policy, updates) {
 		'usbFileTransferDisabled',
 		'bluetoothDisabled',
 		'playStoreMode',
-		'applications',
+		// 'applications', 
 		'advancedSecurityOverrides',
 		'locationMode',
 	];
@@ -698,13 +698,14 @@ function updatePolicyFields(policy, updates) {
 		}
 	});
 
-	if (policy.applications) {
-		policy.applications = policy.applications.map(app => {
+	if (updates.applications) {
+		policy.applications = updates.applications.map(app => {
 			const appObject = app.toObject ? app.toObject() : app; // Ensure app is a plain object
 			delete appObject._id;
 			return appObject;
 		});
 	}
+
 }
 
 async function createEnrollmentToken(payload) {
