@@ -703,7 +703,7 @@ function updatePolicyFields(policy, updates) {
 			const { _id, ...rest } = app.toObject ? app.toObject() : app; // Ensure app is a plain object
 			return rest;
 		});
-
+	}
 }
 
 async function createEnrollmentToken(payload) {
