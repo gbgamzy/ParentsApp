@@ -495,14 +495,14 @@ router.put('/:userId/device/:deviceId/policy/:policyId', async (req, res) => {
 		console.log(policy);
 		console.log(req.body.policyItself);
 		updatePolicyFields(policy, req.body.policyItself);
-		var updatedPolicyItself = { ...policy };
+		var updatedPolicyItself = policy.toJSON();
 		console.log(`UpdatedPolicy: ${updatedPolicyItself}`);
-		updatedPolicyItself = updatedPolicyItself._doc;
+		// updatedPolicyItself = updatedPolicyItself._doc;
 		console.log('Final policy to update:', policy);
 		console.log(`UpdatedPolicy: ${updatedPolicyItself}`);
-		delete updatedPolicyItself._doc._id;
+		delete updatedPolicyItself._id;
 		// delete req.body.policyItself.applications;
-		delete updatedPolicyItself._doc.__v;
+		delete updatedPolicyItself.__v;
 		// delete req.body.policyItself.advancedSecurityOverrides;
 		console.log('Updated policyItself to send to AMA');
 		console.log(updatedPolicyItself);
